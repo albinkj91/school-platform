@@ -1,1 +1,1 @@
-# school-platform
+# School Platform
