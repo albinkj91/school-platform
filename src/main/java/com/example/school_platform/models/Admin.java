@@ -13,6 +13,9 @@ public class Admin extends Person{
 		this.password = password;
 	}
 
+	public Admin(){}
+
+
 	public String getEmail() {
 		return email;
 	}
@@ -27,5 +30,14 @@ public class Admin extends Person{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "Admin{" +
+				super.toString() +
+				"email='" + email + '\'' +
+				", password='" + password + '\'' +
+				"}";
 	}
 }

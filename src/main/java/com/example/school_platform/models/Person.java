@@ -16,6 +16,9 @@ public abstract class Person{
 		this.type = type;
 	}
 
+	public Person(){}
+
+
 	public long getId() {
 		return id;
 	}
@@ -46,5 +49,14 @@ public abstract class Person{
 
 	public void setType(PersonType type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return	"id=" + id +
+				", name='" + name + '\'' +
+				", ssn='" + ssn + '\'' +
+				", type=" + type +
+				", ";
 	}
 }

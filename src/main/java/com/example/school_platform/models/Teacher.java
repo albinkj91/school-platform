@@ -15,6 +15,9 @@ public class Teacher extends Person{
 		this.password = password;
 	}
 
+	public Teacher(){}
+
+
 	public String getEmail() {
 		return email;
 	}
@@ -37,5 +40,15 @@ public class Teacher extends Person{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "Teacher{" +
+				super.toString() +
+				"email='" + email + '\'' +
+				", phone='" + phone + '\'' +
+				", password='" + password + '\'' +
+				"}" + super.toString();
 	}
 }
