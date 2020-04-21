@@ -36,7 +36,7 @@ public class Admin extends Person{
 	public String toString() {
 		return "Admin{" +
 				super.toString() +
-				"email='" + email + '\'' +
+				", email='" + email + '\'' +
 				", password='" + password + '\'' +
 				"}";
 	}

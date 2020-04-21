@@ -56,7 +56,6 @@ public abstract class Person{
 		return	"id=" + id +
 				", name='" + name + '\'' +
 				", ssn='" + ssn + '\'' +
-				", type=" + type +
-				", ";
+				", type=" + type;
 	}
 }

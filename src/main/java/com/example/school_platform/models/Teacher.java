@@ -46,9 +46,9 @@ public class Teacher extends Person{
 	public String toString() {
 		return "Teacher{" +
 				super.toString() +
-				"email='" + email + '\'' +
+				", email='" + email + '\'' +
 				", phone='" + phone + '\'' +
 				", password='" + password + '\'' +
-				"}" + super.toString();
+				"}";
 	}
 }

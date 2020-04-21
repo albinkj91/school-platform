@@ -46,7 +46,7 @@ public class Guardian extends Person{
 	public String toString() {
 		return "Guardian{" +
 				super.toString() +
-				"email='" + email + '\'' +
+				", email='" + email + '\'' +
 				", phone='" + phone + '\'' +
 				", password='" + password + '\'' +
 				"}" + super.toString();
