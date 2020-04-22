@@ -1,7 +1,7 @@
 package com.example.school_platform.services;
 
 import com.example.school_platform.enums.PersonType;
-import com.example.school_platform.models.Admin;
+import com.example.school_platform.models.Guardian;
 import com.example.school_platform.models.Person;
 import com.example.school_platform.repositories.PersonRepository;
 import com.example.school_platform.utilities.BCryptPasswordHash;
@@ -27,10 +27,10 @@ public class PersonService {
 		personRepository.initiate();
 
 		Set<Person> persons = personRepository.getAllPersons();
-		persons = persons.stream().filter(p -> p.getType() == PersonType.ADMIN).collect(Collectors.toSet());
+		persons = persons.stream().filter(p -> p.getType() == PersonType.GUARDIAN).collect(Collectors.toSet());
 		return persons
 				.stream()
-				.anyMatch(p -> ((Admin) p).getEmail().equalsIgnoreCase(email) &&
-								validator.verifyHash(((Admin) p).getPassword(), password));
+				.anyMatch(p -> ((Guardian) p).getEmail().equalsIgnoreCase(email) &&
+								validator.verifyHash(password, ((Guardian) p).getPassword()));
 	}
 }
