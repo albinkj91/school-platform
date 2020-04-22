@@ -4,9 +4,9 @@ import com.example.school_platform.enums.PersonType;
 
 public class Guardian extends Person{
 
-	public String email;
-	public String phone;
-	public String password;
+	private String email;
+	private String phone;
+	private String password;
 
 	public Guardian(long id, String name, String ssn, String email, String phone, String password) {
 		super(id, name, ssn, PersonType.GUARDIAN);

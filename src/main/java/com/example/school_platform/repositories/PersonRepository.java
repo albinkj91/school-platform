@@ -1,7 +1,9 @@
 package com.example.school_platform.repositories;
 
+import com.example.school_platform.enums.PersonType;
 import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.models.*;
+import com.example.school_platform.utilities.BCryptPasswordHash;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -86,14 +88,98 @@ public class PersonRepository {
 		throw new NotFoundException("A person does not belong to a subclass");
 	}
 
-	public static void main(String[] args) {
-		PersonRepository personRepository = new PersonRepository();
+	public Person addPerson(Person person){
 		try {
-			personRepository.initiate();
+			PreparedStatement statement = conn.prepareStatement("INSERT INTO persons(name, ssn, type)" +
+					"value(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, person.getName());
+			statement.setString(2, person.getSsn());
+			statement.setString(3, person.getType().toString());
+			statement.executeUpdate();
+			ResultSet set = statement.getGeneratedKeys();
+
+			if(set.next()) {
+				person.setId((set.getLong(1)));
+				return addPersonByType(person);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		Set<Person> persons = personRepository.getAllPersons();
-		persons.forEach(System.out::println);
+		return null;
+	}
+
+	private Person addAdmin(Person person) throws SQLException {
+		Admin admin = (Admin) person;
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO admins(email, password, person_id)" +
+				"value(?, ?, ?)");
+
+		statement.setString(1, admin.getEmail());
+		statement.setString(2, admin.getPassword());
+		statement.setString(3, String.valueOf(admin.getId()));
+		statement.executeUpdate();
+
+		return admin;
+	}
+
+	private Person addGuardian(Person person) throws SQLException {
+		Guardian guardian = (Guardian) person;
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO guardians(email, phone, password, person_id)" +
+				"value(?, ?, ?, ?)");
+
+		statement.setString(1, guardian.getEmail());
+		statement.setString(2, guardian.getPhone());
+		statement.setString(3, guardian.getPassword());
+		statement.setString(4, String.valueOf(guardian.getId()));
+		statement.executeUpdate();
+
+		return guardian;
+	}
+
+	public Person addStudent(Person person) throws SQLException {
+		Student student = (Student) person;
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO students(person_id)" +
+				"value(?)");
+
+		statement.setString(1, String.valueOf(student.getId()));
+		statement.executeUpdate();
+
+		return student;
+	}
+
+	public Person addTeacher(Person person) throws SQLException {
+		Teacher teacher = (Teacher) person;
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO teachers(email, phone, password, person_id)" +
+				"value(?, ?, ?, ?)");
+
+		statement.setString(1, teacher.getEmail());
+		statement.setString(2, teacher.getPhone());
+		statement.setString(3, teacher.getPassword());
+		statement.setString(4, String.valueOf(teacher.getId()));
+		statement.executeUpdate();
+
+		return teacher;
+	}
+
+	public Person addPersonByType(Person person){
+		Person personResult = null;
+		try {
+			switch (person.getType()) {
+				case ADMIN:
+					personResult = addAdmin(person);
+					break;
+				case GUARDIAN:
+					personResult = addGuardian(person);
+					break;
+				case STUDENT:
+					personResult = addStudent(person);
+					break;
+				case TEACHER:
+					personResult = addTeacher(person);
+					break;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return personResult;
 	}
 }

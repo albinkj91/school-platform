@@ -4,6 +4,7 @@ import com.example.school_platform.enums.PersonType;
 import com.example.school_platform.models.Admin;
 import com.example.school_platform.models.Person;
 import com.example.school_platform.repositories.PersonRepository;
+import com.example.school_platform.utilities.BCryptPasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,14 @@ public class PersonService {
 	}
 
 	public boolean getAllPersons(String email, String password) throws SQLException {
+		BCryptPasswordHash validator = new BCryptPasswordHash();
 		personRepository.initiate();
+
 		Set<Person> persons = personRepository.getAllPersons();
 		persons = persons.stream().filter(p -> p.getType() == PersonType.ADMIN).collect(Collectors.toSet());
 		return persons
 				.stream()
 				.anyMatch(p -> ((Admin) p).getEmail().equalsIgnoreCase(email) &&
-								((Admin) p).getPassword().equals(password));
+								validator.verifyHash(((Admin) p).getPassword(), password));
 	}
 }
