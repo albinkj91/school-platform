@@ -2,12 +2,14 @@ package com.example.school_platform.repositories;
 
 import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.models.*;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+@Repository
 public class PersonRepository {
 
 	private Connection conn;
