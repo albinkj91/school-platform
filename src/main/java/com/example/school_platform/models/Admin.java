@@ -35,9 +35,8 @@ public class Admin extends Person{
 	@Override
 	public String toString() {
 		return "Admin{" +
-				super.toString() +
-				", email='" + email + '\'' +
+				"email='" + email + '\'' +
 				", password='" + password + '\'' +
-				"}";
+				"} " + super.toString();
 	}
 }

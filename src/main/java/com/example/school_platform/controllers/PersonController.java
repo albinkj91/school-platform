@@ -1,14 +1,13 @@
 package com.example.school_platform.controllers;
 
+import com.example.school_platform.models.Person;
+import com.example.school_platform.models.dto.PersonDTO;
 import com.example.school_platform.services.PersonService;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/person")
@@ -21,13 +20,23 @@ public class PersonController {
 		this.personService = personService;
 	}
 
-	@PostMapping("/login")
-	public boolean getAllPersons(@RequestParam String email, @RequestParam String password){
+	@GetMapping("/all")
+	public Set<Person> getAllPersons(){
+		return personService.getAllPersons();
+	}
+
+	@PostMapping("/authenticate")
+	public boolean authenticate(@RequestParam String email, @RequestParam String password){
 		try {
-			return personService.getAllPersons(email, password);
+			return personService.authenticatePerson(email, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@PostMapping("/add")
+	public Person addPerson(@RequestBody PersonDTO personDTO){
+		return personService.addPerson(personDTO);
 	}
 }

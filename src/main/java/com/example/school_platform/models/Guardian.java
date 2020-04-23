@@ -45,10 +45,9 @@ public class Guardian extends Person{
 	@Override
 	public String toString() {
 		return "Guardian{" +
-				super.toString() +
-				", email='" + email + '\'' +
+				"email='" + email + '\'' +
 				", phone='" + phone + '\'' +
 				", password='" + password + '\'' +
-				"}" + super.toString();
+				"} " + super.toString();
 	}
 }
