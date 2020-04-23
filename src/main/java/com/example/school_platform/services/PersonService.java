@@ -22,7 +22,8 @@ public class PersonService {
 		this.personRepository = personRepository;
 	}
 
-	public Set<Person> getAllPersons(){
+	public Set<Person> getAllPersons() throws SQLException {
+		personRepository.initiate();
 		return personRepository.getAllPersons();
 	}
 
@@ -38,8 +39,9 @@ public class PersonService {
 								validator.verifyHash(password, ((Guardian) p).getPassword()));
 	}
 
-	public Person addPerson(PersonDTO personDTO){
+	public Person addPerson(PersonDTO personDTO) throws SQLException {
 		Person personResult = null;
+		personRepository.initiate();
 		long id = personRepository.addPerson(personDTO);
 
 		try {

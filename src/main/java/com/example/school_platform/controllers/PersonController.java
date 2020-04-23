@@ -22,7 +22,12 @@ public class PersonController {
 
 	@GetMapping("/all")
 	public Set<Person> getAllPersons(){
-		return personService.getAllPersons();
+		try {
+			return personService.getAllPersons();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@PostMapping("/authenticate")
@@ -37,6 +42,11 @@ public class PersonController {
 
 	@PostMapping("/add")
 	public Person addPerson(@RequestBody PersonDTO personDTO){
-		return personService.addPerson(personDTO);
+		try {
+			return personService.addPerson(personDTO);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

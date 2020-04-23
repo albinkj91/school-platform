@@ -100,7 +100,7 @@ public class PersonRepository {
 			ResultSet set = statement.getGeneratedKeys();
 
 			if(set.next()) {
-				set.getLong(1);
+				return set.getLong(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
