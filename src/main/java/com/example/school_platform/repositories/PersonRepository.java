@@ -15,7 +15,6 @@ import java.util.Set;
 public class PersonRepository {
 
 	private Connection conn;
-	private final BCryptPasswordHash passwordHasher = new BCryptPasswordHash();
 
 	public void initiate() throws SQLException {
 		DatabaseConnector databaseConnector = new DatabaseConnector();
@@ -109,9 +108,6 @@ public class PersonRepository {
 	}
 
 	public Person addAdmin(Admin admin) throws SQLException {
-		String hashedPassword = passwordHasher.hash(admin.getPassword());
-		admin.setPassword(hashedPassword);
-
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO admins(email, password, person_id)" +
 				"value(?, ?, ?)");
 
@@ -124,9 +120,6 @@ public class PersonRepository {
 	}
 
 	public Person addGuardian(Guardian guardian) throws SQLException {
-		String hashedPassword = passwordHasher.hash(guardian.getPassword());
-		guardian.setPassword(hashedPassword);
-
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO guardians(email, phone, password, person_id)" +
 				"value(?, ?, ?, ?)");
 
@@ -150,9 +143,6 @@ public class PersonRepository {
 	}
 
 	public Person addTeacher(Teacher teacher) throws SQLException {
-		String hashedPassword = passwordHasher.hash(teacher.getPassword());
-		teacher.setPassword(hashedPassword);
-
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO teachers(email, phone, password, person_id)" +
 				"value(?, ?, ?, ?)");
 

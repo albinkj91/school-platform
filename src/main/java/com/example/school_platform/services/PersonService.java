@@ -44,6 +44,11 @@ public class PersonService {
 		personRepository.initiate();
 		long id = personRepository.addPerson(personDTO);
 
+		if(personDTO.getPassword() != null){
+			BCryptPasswordHash passwordHasher = new BCryptPasswordHash();
+			personDTO.setPassword(passwordHasher.hash(personDTO.getPassword()));
+		}
+
 		try {
 			switch (personDTO.getType()) {
 				case ADMIN:
