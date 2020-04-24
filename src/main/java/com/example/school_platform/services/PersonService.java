@@ -32,17 +32,43 @@ public class PersonService {
 		personRepository.initiate();
 
 		Set<Person> persons = personRepository.getAllPersons();
-		persons = persons.stream().filter(p -> p.getType() == PersonType.GUARDIAN).collect(Collectors.toSet());
+		persons = filterPersonsForLogin(persons);
 		return persons
 				.stream()
-				.anyMatch(p -> ((Guardian) p).getEmail().equalsIgnoreCase(email) &&
-								validator.verifyHash(password, ((Guardian) p).getPassword()));
+				.anyMatch(p -> {
+					switch(p.getType()){
+						case ADMIN:
+							return ((Admin) p)
+									.getEmail()
+									.equalsIgnoreCase(email) &&
+									validator.verifyHash(password, ((Admin) p).getPassword());
+						case TEACHER:
+							return ((Teacher) p)
+									.getEmail()
+									.equalsIgnoreCase(email) &&
+									validator.verifyHash(password, ((Teacher) p).getPassword());
+						case GUARDIAN:
+							return ((Guardian) p)
+									.getEmail()
+									.equalsIgnoreCase(email) &&
+									validator.verifyHash(password, ((Guardian) p).getPassword());
+						default:
+							return false;
+					}
+				});
+	}
+
+	private Set<Person> filterPersonsForLogin(Set<Person> persons){
+		return persons
+				.stream()
+				.filter(p -> p.getType() != PersonType.STUDENT)
+				.collect(Collectors.toSet());
 	}
 
 	public Person addPerson(PersonDTO personDTO) throws SQLException {
 		Person personResult = null;
 		personRepository.initiate();
-		long id = personRepository.addPerson(personDTO);
+		long id = personRepository.persistPerson(personDTO);
 
 		if(personDTO.getPassword() != null){
 			BCryptPasswordHash passwordHasher = new BCryptPasswordHash();
@@ -58,7 +84,7 @@ public class PersonService {
 							personDTO.getSsn(),
 							personDTO.getEmail(),
 							personDTO.getPassword());
-					personResult = personRepository.addAdmin(admin);
+					personResult = personRepository.persistAdmin(admin);
 					break;
 				case GUARDIAN:
 					Guardian guardian = new Guardian(
@@ -68,14 +94,14 @@ public class PersonService {
 							personDTO.getEmail(),
 							personDTO.getPhone(),
 							personDTO.getPassword());
-					personResult = personRepository.addGuardian(guardian);
+					personResult = personRepository.persistGuardian(guardian);
 					break;
 				case STUDENT:
 					Student student = new Student(
 							id,
 							personDTO.getName(),
 							personDTO.getSsn());
-					personResult = personRepository.addStudent(student);
+					personResult = personRepository.persistStudent(student);
 					break;
 				case TEACHER:
 					Teacher teacher = new Teacher(
@@ -85,7 +111,7 @@ public class PersonService {
 							personDTO.getEmail(),
 							personDTO.getPhone(),
 							personDTO.getPassword());
-					personResult = personRepository.addTeacher(teacher);
+					personResult = personRepository.persistTeacher(teacher);
 					break;
 			}
 		}catch(SQLException e){

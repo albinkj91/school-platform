@@ -3,7 +3,6 @@ package com.example.school_platform.repositories;
 import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.models.*;
 import com.example.school_platform.models.dto.PersonDTO;
-import com.example.school_platform.utilities.BCryptPasswordHash;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -40,7 +39,7 @@ public class PersonRepository {
 				String ssn = set.getString("ssn");
 				String type = set.getString("type");
 
-				Person person = getPersonByType(id, name, ssn, type);
+				Person person = getByType(id, name, ssn, type);
 				persons.add(person);
 			}
 		} catch (SQLException | NotFoundException e) {
@@ -49,7 +48,7 @@ public class PersonRepository {
 		return persons;
 	}
 
-	public Person getPersonByType(long id, String name, String ssn, String type) throws NotFoundException {
+	private Person getByType(long id, String name, String ssn, String type) throws NotFoundException {
 		ResultSet set = null;
 
 		try {
@@ -88,7 +87,7 @@ public class PersonRepository {
 		throw new NotFoundException("A person does not belong to a subclass");
 	}
 
-	public long addPerson(PersonDTO personDTO){
+	public long persistPerson(PersonDTO personDTO){
 		try {
 			PreparedStatement statement = conn.prepareStatement("INSERT INTO persons(name, ssn, type)" +
 					"value(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -107,7 +106,7 @@ public class PersonRepository {
 		return -1;
 	}
 
-	public Person addAdmin(Admin admin) throws SQLException {
+	public Person persistAdmin(Admin admin) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO admins(email, password, person_id)" +
 				"value(?, ?, ?)");
 
@@ -119,7 +118,7 @@ public class PersonRepository {
 		return admin;
 	}
 
-	public Person addGuardian(Guardian guardian) throws SQLException {
+	public Person persistGuardian(Guardian guardian) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO guardians(email, phone, password, person_id)" +
 				"value(?, ?, ?, ?)");
 
@@ -132,7 +131,7 @@ public class PersonRepository {
 		return guardian;
 	}
 
-	public Person addStudent(Student student) throws SQLException {
+	public Person persistStudent(Student student) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO students(person_id)" +
 				"value(?)");
 
@@ -142,7 +141,7 @@ public class PersonRepository {
 		return student;
 	}
 
-	public Person addTeacher(Teacher teacher) throws SQLException {
+	public Person persistTeacher(Teacher teacher) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement("INSERT INTO teachers(email, phone, password, person_id)" +
 				"value(?, ?, ?, ?)");
 
