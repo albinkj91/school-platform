@@ -2,6 +2,7 @@ package com.example.school_platform.services;
 
 import com.example.school_platform.enums.PersonType;
 import com.example.school_platform.models.*;
+import com.example.school_platform.models.dto.PersonGetDTO;
 import com.example.school_platform.models.dto.PersonPostDTO;
 import com.example.school_platform.repositories.PersonRepository;
 import com.example.school_platform.utilities.BCryptPasswordHash;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,9 +24,51 @@ public class PersonService {
 		this.personRepository = personRepository;
 	}
 
-	public Set<Person> getAllPersons() throws SQLException {
+	public Set<PersonGetDTO> getAllPersons() throws SQLException {
+		Set<PersonGetDTO> personGetDTOSet = new HashSet<>();
 		personRepository.initiate();
-		return personRepository.getAllPersons();
+		Set<Person> persons = personRepository.getAllPersons();
+		persons.forEach(p -> {
+			switch(p.getType()){
+				case ADMIN:
+					Admin admin = (Admin) p;
+					personGetDTOSet.add(
+							new PersonGetDTO(
+									admin.getName(),
+									admin.getSsn(),
+									admin.getType(),
+									admin.getEmail()));
+					break;
+				case GUARDIAN:
+					Guardian guardian = (Guardian) p;
+					personGetDTOSet.add(
+							new PersonGetDTO(
+									guardian.getName(),
+									guardian.getSsn(),
+									guardian.getType(),
+									guardian.getEmail(),
+									guardian.getPhone()));
+					break;
+				case TEACHER:
+					Teacher teacher = (Teacher) p;
+					personGetDTOSet.add(
+							new PersonGetDTO(
+									teacher.getName(),
+									teacher.getSsn(),
+									teacher.getType(),
+									teacher.getEmail(),
+									teacher.getPhone()));
+					break;
+				case STUDENT:
+					Student student = (Student) p;
+					personGetDTOSet.add(
+							new PersonGetDTO(
+									student.getName(),
+									student.getSsn(),
+									student.getType()));
+			}
+		});
+		return personGetDTOSet;
 	}
 
 	public boolean authenticatePerson(String email, String password) throws SQLException {
