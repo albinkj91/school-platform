@@ -49,7 +49,7 @@ public class PersonRepository {
 	}
 
 	private Person getByType(long id, String name, String ssn, String type) throws NotFoundException {
-		ResultSet set = null;
+		ResultSet set;
 
 		try {
 			Statement statement = conn.createStatement();
