@@ -1,9 +1,12 @@
 package com.example.school_platform.models;
 
+import com.example.school_platform.enums.Grade;
+
 public class Subject {
 
 	private long id;
 	private String name;
+	private Grade grade;
 
 	public Subject(long id, String name) {
 		this.id = id;

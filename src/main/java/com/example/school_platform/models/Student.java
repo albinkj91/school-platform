@@ -7,11 +7,13 @@ import java.util.List;
 public class Student extends Person{
 
 	private List<Subject> subjects;
+	private List<Guardian> guardians;
 	private Teacher teacher;
 
-	public Student(long id, String name, String ssn, List<Subject> subjects, Teacher teacher) {
+	public Student(long id, String name, String ssn, List<Subject> subjects, List<Guardian> guardians, Teacher teacher) {
 		super(id, name, ssn, PersonType.STUDENT);
 		this.subjects = subjects;
+		this.guardians = guardians;
 		this.teacher = teacher;
 	}
 
@@ -27,6 +29,14 @@ public class Student extends Person{
 
 	public void setSubjects(List<Subject> subjects) {
 		this.subjects = subjects;
+	}
+
+	public List<Guardian> getGuardians() {
+		return guardians;
+	}
+
+	public void setGuardians(List<Guardian> guardians) {
+		this.guardians = guardians;
 	}
 
 	public Teacher getTeacher() {

@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SchoolPlatformApplication {
 
 	public static void main(String[] args) {
-		System.out.println(PersonType.GUARDIAN);
 		SpringApplication.run(SchoolPlatformApplication.class, args);
 	}
 

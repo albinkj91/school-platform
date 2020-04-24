@@ -15,6 +15,7 @@ public class PersonRepository {
 
 	private Connection conn;
 
+
 	public void initiate() throws SQLException {
 		DatabaseConnector databaseConnector = new DatabaseConnector();
 		Properties properties = databaseConnector.getProperties();
@@ -48,7 +49,7 @@ public class PersonRepository {
 		return persons;
 	}
 
-	private Person getByType(long id, String name, String ssn, String type) throws NotFoundException {
+	public Person getByType(long personId, String name, String ssn, String type) throws NotFoundException {
 		ResultSet set;
 
 		try {
@@ -56,27 +57,47 @@ public class PersonRepository {
 
 			switch (type) {
 				case "admin":
-					set = statement.executeQuery("SELECT * FROM admins WHERE person_id=" + id);
+					set = statement.executeQuery("SELECT * FROM admins WHERE person_id=" + personId);
 					if(set.next()){
-						return new Admin(id, name, ssn, set.getString("email"), set.getString("password"));
+						return new Admin(
+								set.getLong("id"),
+								name,
+								ssn,
+								set.getString("email"),
+								set.getString("password"));
 					}
 					break;
 				case "guardian":
-					set = statement.executeQuery("SELECT * FROM guardians WHERE person_id=" + id);
+					set = statement.executeQuery("SELECT * FROM guardians WHERE person_id=" + personId);
 					if(set.next()){
-						return new Guardian(id, name, ssn, set.getString("email"), set.getString("phone"), set.getString("password"));
+						return new Guardian(
+								set.getLong("id"),
+								name,
+								ssn,
+								set.getString("email"),
+								set.getString("phone"),
+								set.getString("password"));
 					}
 					break;
 				case "student":
-					set = statement.executeQuery("SELECT * FROM students WHERE person_id=" + id);
+					set = statement.executeQuery("SELECT * FROM students WHERE person_id=" + personId);
 					if(set.next()){
-						return new Student(id, name, ssn);
+						return new Student(
+								set.getLong("id"),
+								name,
+								ssn);
 					}
 					break;
 				case "teacher":
-					set = statement.executeQuery("SELECT * FROM teachers WHERE person_id=" + id);
+					set = statement.executeQuery("SELECT * FROM teachers WHERE person_id=" + personId);
 					if(set.next()){
-						return new Teacher(id, name, ssn, set.getString("email"), set.getString("phone"), set.getString("password"));
+						return new Teacher(
+								set.getLong("id"),
+								name,
+								ssn,
+								set.getString("email"),
+								set.getString("phone"),
+								set.getString("password"));
 					}
 					break;
 			}
@@ -87,21 +108,17 @@ public class PersonRepository {
 		throw new NotFoundException("A person does not belong to a subclass");
 	}
 
-	public long persistPerson(PersonPostDTO personPostDTO){
-		try {
-			PreparedStatement statement = conn.prepareStatement("INSERT INTO persons(name, ssn, type)" +
-					"value(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, personPostDTO.getName());
-			statement.setString(2, personPostDTO.getSsn());
-			statement.setString(3, personPostDTO.getType().toString());
-			statement.executeUpdate();
-			ResultSet set = statement.getGeneratedKeys();
+	public long persistPerson(PersonPostDTO personPostDTO) throws SQLException {
+		PreparedStatement statement = conn.prepareStatement("INSERT INTO persons(name, ssn, type)" +
+				"value(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		statement.setString(1, personPostDTO.getName());
+		statement.setString(2, personPostDTO.getSsn());
+		statement.setString(3, personPostDTO.getType().toString());
+		statement.executeUpdate();
+		ResultSet set = statement.getGeneratedKeys();
 
-			if(set.next()) {
-				return set.getLong(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if(set.next()) {
+			return set.getLong(1);
 		}
 		return -1;
 	}

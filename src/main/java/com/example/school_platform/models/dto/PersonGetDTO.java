@@ -4,13 +4,15 @@ import com.example.school_platform.enums.PersonType;
 
 public class PersonGetDTO {
 
+	private long id;
 	private String name;
 	private String ssn;
 	private PersonType type;
 	private String email;
 	private String phone;
 
-	public PersonGetDTO(String name, String ssn, PersonType type, String email, String phone) {
+	public PersonGetDTO(long id,String name, String ssn, PersonType type, String email, String phone) {
+		this.id = id;
 		this.name = name;
 		this.ssn = ssn;
 		this.type = type;
@@ -18,17 +20,27 @@ public class PersonGetDTO {
 		this.phone = phone;
 	}
 
-	public PersonGetDTO(String name, String ssn, PersonType type, String email) {
+	public PersonGetDTO(long id, String name, String ssn, PersonType type, String email) {
+		this.id = id;
 		this.name = name;
 		this.ssn = ssn;
 		this.type = type;
 		this.email = email;
 	}
 
-	public PersonGetDTO(String name, String ssn, PersonType type) {
+	public PersonGetDTO(long id, String name, String ssn, PersonType type) {
+		this.id = id;
 		this.name = name;
 		this.ssn = ssn;
 		this.type = type;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {

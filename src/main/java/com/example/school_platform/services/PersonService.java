@@ -20,7 +20,7 @@ public class PersonService {
 	private final PersonRepository personRepository;
 
 	@Autowired
-	public PersonService(PersonRepository personRepository){
+	public PersonService(PersonRepository personRepository) {
 		this.personRepository = personRepository;
 	}
 
@@ -29,11 +29,12 @@ public class PersonService {
 		personRepository.initiate();
 		Set<Person> persons = personRepository.getAllPersons();
 		persons.forEach(p -> {
-			switch(p.getType()){
+			switch (p.getType()) {
 				case ADMIN:
 					Admin admin = (Admin) p;
 					personGetDTOSet.add(
 							new PersonGetDTO(
+									admin.getId(),
 									admin.getName(),
 									admin.getSsn(),
 									admin.getType(),
@@ -43,6 +44,7 @@ public class PersonService {
 					Guardian guardian = (Guardian) p;
 					personGetDTOSet.add(
 							new PersonGetDTO(
+									guardian.getId(),
 									guardian.getName(),
 									guardian.getSsn(),
 									guardian.getType(),
@@ -53,6 +55,7 @@ public class PersonService {
 					Teacher teacher = (Teacher) p;
 					personGetDTOSet.add(
 							new PersonGetDTO(
+									teacher.getId(),
 									teacher.getName(),
 									teacher.getSsn(),
 									teacher.getType(),
@@ -63,6 +66,7 @@ public class PersonService {
 					Student student = (Student) p;
 					personGetDTOSet.add(
 							new PersonGetDTO(
+									student.getId(),
 									student.getName(),
 									student.getSsn(),
 									student.getType()));
@@ -80,7 +84,7 @@ public class PersonService {
 		return persons
 				.stream()
 				.anyMatch(p -> {
-					switch(p.getType()){
+					switch (p.getType()) {
 						case ADMIN:
 							return ((Admin) p)
 									.getEmail()
@@ -102,7 +106,7 @@ public class PersonService {
 				});
 	}
 
-	private Set<Person> filterPersonsForLogin(Set<Person> persons){
+	private Set<Person> filterPersonsForLogin(Set<Person> persons) {
 		return persons
 				.stream()
 				.filter(p -> p.getType() != PersonType.STUDENT)
@@ -110,57 +114,48 @@ public class PersonService {
 	}
 
 	public Person addPerson(PersonPostDTO personPostDTO) throws SQLException {
-		Person personResult = null;
 		personRepository.initiate();
 		long id = personRepository.persistPerson(personPostDTO);
 
-		if(personPostDTO.getPassword() != null){
+		if (personPostDTO.getPassword() != null) {
 			BCryptPasswordHash passwordHasher = new BCryptPasswordHash();
 			personPostDTO.setPassword(passwordHasher.hash(personPostDTO.getPassword()));
 		}
 
-		try {
-			switch (personPostDTO.getType()) {
-				case ADMIN:
-					Admin admin = new Admin(
-							id,
-							personPostDTO.getName(),
-							personPostDTO.getSsn(),
-							personPostDTO.getEmail(),
-							personPostDTO.getPassword());
-					personResult = personRepository.persistAdmin(admin);
-					break;
-				case GUARDIAN:
-					Guardian guardian = new Guardian(
-							id,
-							personPostDTO.getName(),
-							personPostDTO.getSsn(),
-							personPostDTO.getEmail(),
-							personPostDTO.getPhone(),
-							personPostDTO.getPassword());
-					personResult = personRepository.persistGuardian(guardian);
-					break;
-				case STUDENT:
-					Student student = new Student(
-							id,
-							personPostDTO.getName(),
-							personPostDTO.getSsn());
-					personResult = personRepository.persistStudent(student);
-					break;
-				case TEACHER:
-					Teacher teacher = new Teacher(
-							id,
-							personPostDTO.getName(),
-							personPostDTO.getSsn(),
-							personPostDTO.getEmail(),
-							personPostDTO.getPhone(),
-							personPostDTO.getPassword());
-					personResult = personRepository.persistTeacher(teacher);
-					break;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
+		switch (personPostDTO.getType()) {
+			case ADMIN:
+				Admin admin = new Admin(
+						id,
+						personPostDTO.getName(),
+						personPostDTO.getSsn(),
+						personPostDTO.getEmail(),
+						personPostDTO.getPassword());
+				return personRepository.persistAdmin(admin);
+			case GUARDIAN:
+				Guardian guardian = new Guardian(
+						id,
+						personPostDTO.getName(),
+						personPostDTO.getSsn(),
+						personPostDTO.getEmail(),
+						personPostDTO.getPhone(),
+						personPostDTO.getPassword());
+				return personRepository.persistGuardian(guardian);
+			case STUDENT:
+				Student student = new Student(
+						id,
+						personPostDTO.getName(),
+						personPostDTO.getSsn());
+				return personRepository.persistStudent(student);
+			case TEACHER:
+				Teacher teacher = new Teacher(
+						id,
+						personPostDTO.getName(),
+						personPostDTO.getSsn(),
+						personPostDTO.getEmail(),
+						personPostDTO.getPhone(),
+						personPostDTO.getPassword());
+				return personRepository.persistTeacher(teacher);
 		}
-		return personResult;
+		return null;
 	}
 }
