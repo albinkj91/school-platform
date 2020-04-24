@@ -2,7 +2,7 @@ package com.example.school_platform.services;
 
 import com.example.school_platform.enums.PersonType;
 import com.example.school_platform.models.*;
-import com.example.school_platform.models.dto.PersonDTO;
+import com.example.school_platform.models.dto.PersonPostDTO;
 import com.example.school_platform.repositories.PersonRepository;
 import com.example.school_platform.utilities.BCryptPasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,52 +65,52 @@ public class PersonService {
 				.collect(Collectors.toSet());
 	}
 
-	public Person addPerson(PersonDTO personDTO) throws SQLException {
+	public Person addPerson(PersonPostDTO personPostDTO) throws SQLException {
 		Person personResult = null;
 		personRepository.initiate();
-		long id = personRepository.persistPerson(personDTO);
+		long id = personRepository.persistPerson(personPostDTO);
 
-		if(personDTO.getPassword() != null){
+		if(personPostDTO.getPassword() != null){
 			BCryptPasswordHash passwordHasher = new BCryptPasswordHash();
-			personDTO.setPassword(passwordHasher.hash(personDTO.getPassword()));
+			personPostDTO.setPassword(passwordHasher.hash(personPostDTO.getPassword()));
 		}
 
 		try {
-			switch (personDTO.getType()) {
+			switch (personPostDTO.getType()) {
 				case ADMIN:
 					Admin admin = new Admin(
 							id,
-							personDTO.getName(),
-							personDTO.getSsn(),
-							personDTO.getEmail(),
-							personDTO.getPassword());
+							personPostDTO.getName(),
+							personPostDTO.getSsn(),
+							personPostDTO.getEmail(),
+							personPostDTO.getPassword());
 					personResult = personRepository.persistAdmin(admin);
 					break;
 				case GUARDIAN:
 					Guardian guardian = new Guardian(
 							id,
-							personDTO.getName(),
-							personDTO.getSsn(),
-							personDTO.getEmail(),
-							personDTO.getPhone(),
-							personDTO.getPassword());
+							personPostDTO.getName(),
+							personPostDTO.getSsn(),
+							personPostDTO.getEmail(),
+							personPostDTO.getPhone(),
+							personPostDTO.getPassword());
 					personResult = personRepository.persistGuardian(guardian);
 					break;
 				case STUDENT:
 					Student student = new Student(
 							id,
-							personDTO.getName(),
-							personDTO.getSsn());
+							personPostDTO.getName(),
+							personPostDTO.getSsn());
 					personResult = personRepository.persistStudent(student);
 					break;
 				case TEACHER:
 					Teacher teacher = new Teacher(
 							id,
-							personDTO.getName(),
-							personDTO.getSsn(),
-							personDTO.getEmail(),
-							personDTO.getPhone(),
-							personDTO.getPassword());
+							personPostDTO.getName(),
+							personPostDTO.getSsn(),
+							personPostDTO.getEmail(),
+							personPostDTO.getPhone(),
+							personPostDTO.getPassword());
 					personResult = personRepository.persistTeacher(teacher);
 					break;
 			}

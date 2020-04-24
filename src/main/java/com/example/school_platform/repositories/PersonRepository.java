@@ -2,7 +2,7 @@ package com.example.school_platform.repositories;
 
 import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.models.*;
-import com.example.school_platform.models.dto.PersonDTO;
+import com.example.school_platform.models.dto.PersonPostDTO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -87,13 +87,13 @@ public class PersonRepository {
 		throw new NotFoundException("A person does not belong to a subclass");
 	}
 
-	public long persistPerson(PersonDTO personDTO){
+	public long persistPerson(PersonPostDTO personPostDTO){
 		try {
 			PreparedStatement statement = conn.prepareStatement("INSERT INTO persons(name, ssn, type)" +
 					"value(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, personDTO.getName());
-			statement.setString(2, personDTO.getSsn());
-			statement.setString(3, personDTO.getType().toString());
+			statement.setString(1, personPostDTO.getName());
+			statement.setString(2, personPostDTO.getSsn());
+			statement.setString(3, personPostDTO.getType().toString());
 			statement.executeUpdate();
 			ResultSet set = statement.getGeneratedKeys();
 

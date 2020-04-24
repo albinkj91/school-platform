@@ -2,7 +2,7 @@ package com.example.school_platform.models.dto;
 
 import com.example.school_platform.enums.PersonType;
 
-public class PersonDTO {
+public class PersonPostDTO {
 
 	private String name;
 	private String ssn;

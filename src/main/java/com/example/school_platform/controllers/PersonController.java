@@ -1,7 +1,7 @@
 package com.example.school_platform.controllers;
 
 import com.example.school_platform.models.Person;
-import com.example.school_platform.models.dto.PersonDTO;
+import com.example.school_platform.models.dto.PersonPostDTO;
 import com.example.school_platform.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +41,9 @@ public class PersonController {
 	}
 
 	@PostMapping("/add")
-	public Person addPerson(@RequestBody PersonDTO personDTO){
+	public Person addPerson(@RequestBody PersonPostDTO personPostDTO){
 		try {
-			return personService.addPerson(personDTO);
+			return personService.addPerson(personPostDTO);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
