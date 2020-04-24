@@ -1,6 +1,7 @@
 package com.example.school_platform.controllers;
 
 import com.example.school_platform.models.Person;
+import com.example.school_platform.models.dto.PersonGetDTO;
 import com.example.school_platform.models.dto.PersonPostDTO;
 import com.example.school_platform.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class PersonController {
 	}
 
 	@GetMapping("/all")
-	public Set<Person> getAllPersons(){
+	public Set<PersonGetDTO> getAllPersons(){
 		try {
 			return personService.getAllPersons();
 		} catch (SQLException e) {
