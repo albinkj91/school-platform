@@ -13,7 +13,7 @@ import java.util.Set;
 @Repository
 public class PersonRepository {
 
-	private Connection conn;
+	private Connection connection;
 
 
 	public void initiate() throws SQLException {
@@ -21,7 +21,7 @@ public class PersonRepository {
 		Properties properties = databaseConnector.getProperties();
 		properties.put("url", "jdbc:mysql://localhost:3306/school_plattform");
 
-		conn = databaseConnector.connect(
+		connection = databaseConnector.connect(
 				properties.getProperty("url"),
 				properties.getProperty("user"),
 				properties.getProperty("password"));
@@ -31,7 +31,7 @@ public class PersonRepository {
 		Set<Person> persons = new HashSet<>();
 
 		try {
-			Statement statement = conn.createStatement();
+			Statement statement = connection.createStatement();
 			ResultSet set = statement.executeQuery("SELECT * FROM persons");
 
 			while(set.next()){
@@ -53,7 +53,7 @@ public class PersonRepository {
 		ResultSet set;
 
 		try {
-			Statement statement = conn.createStatement();
+			Statement statement = connection.createStatement();
 
 			switch (type) {
 				case "admin":
@@ -109,7 +109,7 @@ public class PersonRepository {
 	}
 
 	public long persistPerson(PersonPostDTO personPostDTO) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO persons(name, ssn, type)" +
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO persons(name, ssn, type)" +
 				"value(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		statement.setString(1, personPostDTO.getName());
 		statement.setString(2, personPostDTO.getSsn());
@@ -124,7 +124,7 @@ public class PersonRepository {
 	}
 
 	public Person persistAdmin(Admin admin) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO admins(email, password, person_id)" +
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO admins(email, password, person_id)" +
 				"value(?, ?, ?)");
 
 		statement.setString(1, admin.getEmail());
@@ -136,7 +136,7 @@ public class PersonRepository {
 	}
 
 	public Person persistGuardian(Guardian guardian) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO guardians(email, phone, password, person_id)" +
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO guardians(email, phone, password, person_id)" +
 				"value(?, ?, ?, ?)");
 
 		statement.setString(1, guardian.getEmail());
@@ -149,7 +149,7 @@ public class PersonRepository {
 	}
 
 	public Person persistStudent(Student student) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO students(person_id)" +
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO students(person_id)" +
 				"value(?)");
 
 		statement.setString(1, String.valueOf(student.getId()));
@@ -159,7 +159,7 @@ public class PersonRepository {
 	}
 
 	public Person persistTeacher(Teacher teacher) throws SQLException {
-		PreparedStatement statement = conn.prepareStatement("INSERT INTO teachers(email, phone, password, person_id)" +
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO teachers(email, phone, password, person_id)" +
 				"value(?, ?, ?, ?)");
 
 		statement.setString(1, teacher.getEmail());

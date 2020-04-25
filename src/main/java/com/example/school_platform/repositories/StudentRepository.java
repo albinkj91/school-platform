@@ -15,7 +15,7 @@ import java.util.Set;
 @Repository
 public class StudentRepository {
 
-	private Connection conn;
+	private Connection connection;
 
 
 	public void initiate() throws SQLException {
@@ -23,7 +23,7 @@ public class StudentRepository {
 		Properties properties = databaseConnector.getProperties();
 		properties.put("url", "jdbc:mysql://localhost:3306/school_plattform");
 
-		conn = databaseConnector.connect(
+		connection = databaseConnector.connect(
 				properties.getProperty("url"),
 				properties.getProperty("user"),
 				properties.getProperty("password"));
@@ -33,7 +33,7 @@ public class StudentRepository {
 		Set<Student> students = new HashSet<>();
 		try {
 			initiate();
-			Statement statement = conn.createStatement();
+			Statement statement = connection.createStatement();
 			ResultSet set = statement.executeQuery("SELECT * FROM students s " +
 					"INNER JOIN persons p ON s.person_id = p.id " +
 					"WHERE teacher_id=" + teacherId);

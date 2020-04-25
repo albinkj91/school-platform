@@ -8,10 +8,13 @@ public class Subject {
 	private String name;
 	private Grade grade;
 
-	public Subject(long id, String name) {
+	public Subject(long id, String name, Grade grade) {
 		this.id = id;
 		this.name = name;
+		this.grade = grade;
 	}
+
+	public Subject(){}
 
 	public long getId() {
 		return id;
@@ -27,6 +30,14 @@ public class Subject {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Grade getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Grade grade) {
+		this.grade = grade;
 	}
 
 	@Override
