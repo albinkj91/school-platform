@@ -9,13 +9,11 @@ public class Student extends Person{
 
 	private Set<Subject> subjects;
 	private Set<GuardianGetDTO> guardians;
-	private Teacher teacher;
 
-	public Student(long id, String name, String ssn, Set<Subject> subjects, Set<GuardianGetDTO> guardians, Teacher teacher) {
+	public Student(long id, String name, String ssn, Set<Subject> subjects, Set<GuardianGetDTO> guardians) {
 		super(id, name, ssn, PersonType.STUDENT);
 		this.subjects = subjects;
 		this.guardians = guardians;
-		this.teacher = teacher;
 	}
 
 	public Student(long id, String name, String ssn){
@@ -38,14 +36,6 @@ public class Student extends Person{
 
 	public void setGuardians(Set<GuardianGetDTO> guardians) {
 		this.guardians = guardians;
-	}
-
-	public Teacher getTeacher() {
-		return teacher;
-	}
-
-	public void setTeacher(Teacher teacher) {
-		this.teacher = teacher;
 	}
 
 	@Override

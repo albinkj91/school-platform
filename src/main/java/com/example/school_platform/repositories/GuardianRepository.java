@@ -29,6 +29,7 @@ public class GuardianRepository {
 
 	public Set<GuardianGetDTO> getGuardiansByStudentId(long studentId) throws SQLException {
 		Set<GuardianGetDTO> guardians = new HashSet<>();
+		initiate();
 		Statement statement = connection.createStatement();
 		ResultSet set = statement.executeQuery("SELECT p.name, g.id, g.email, g.phone FROM student_guardian sg " +
 				"INNER JOIN guardians g ON g.id = sg.guardian_id " +
