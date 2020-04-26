@@ -4,12 +4,8 @@ import com.example.school_platform.models.Person;
 import com.example.school_platform.models.dto.PersonGetDTO;
 import com.example.school_platform.models.dto.PersonPostDTO;
 import com.example.school_platform.services.PersonService;
-import com.example.school_platform.utilities.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
 import java.sql.SQLException;
 import java.util.Set;
 
