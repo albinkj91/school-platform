@@ -3,6 +3,9 @@
 }
 
 .vbox{
+	-fx-max-width: 500;
+	-fx-max-height: 500;
+	-fx-alignment: center;
 	-fx-background-color: #105080;
 	-fx-background-radius: 10;
 	-fx-padding: 10;
