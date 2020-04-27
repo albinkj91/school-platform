@@ -1,5 +1,5 @@
 .root{
-	-fx-background-color: lightslategray;
+	-fx-background-color: #202020;
 }
 
 .vbox{
@@ -22,4 +22,13 @@
 	-fx-min-height: 30;
 	-fx-font-family: sans-serif;
 	-fx-font-size: 16;
+}
+
+.login-button{
+	-fx-background-color: crimson;
+	-fx-min-width: 150;
+	-fx-min-height: 35;
+	-fx-font-family: sans-serif;
+	-fx-font-size: 16;
+	-fx-text-fill: white;
 }

@@ -19,7 +19,6 @@ public class PersonRepository {
 	public void initiate() throws SQLException {
 		DatabaseConnector databaseConnector = new DatabaseConnector();
 		Properties properties = databaseConnector.getProperties();
-		properties.put("url", "jdbc:mysql://localhost:3306/school_plattform");
 
 		connection = databaseConnector.connect(
 				properties.getProperty("url"),

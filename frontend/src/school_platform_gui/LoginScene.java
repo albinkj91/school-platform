@@ -1,12 +1,16 @@
 package school_platform_gui;
 
-import javafx.geometry.Pos;
+import http_request.LoginRequest;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class LoginScene extends Scene {
 
@@ -14,6 +18,7 @@ public class LoginScene extends Scene {
 	private PasswordField passwordField = new PasswordField();
 	private Label usernameLabel = new Label("Username");
 	private Label passwordLabel = new Label("Password");
+	private Button loginButton = new Button("Login");
 	private VBox vBox = new VBox(10);
 
 	public LoginScene(Parent root) {
@@ -27,7 +32,8 @@ public class LoginScene extends Scene {
 				usernameLabel,
 				usernameField,
 				passwordLabel,
-				passwordField);
+				passwordField,
+				loginButton);
 		vBox.getStyleClass().add("vbox");
 	}
 
@@ -43,5 +49,17 @@ public class LoginScene extends Scene {
 	public void setPasswordField(){
 		passwordLabel.getStyleClass().add("password-label");
 		passwordField.getStyleClass().add("password-field");
+	}
+
+	public void setLoginButton(){
+		loginButton.getStyleClass().add("login-button");
+	}
+
+	public void setOnActionLoginButton(){
+		loginButton.setOnAction(e -> {
+			LoginRequest loginRequest = new LoginRequest("http://localhost:8080/person/authenticate");
+			String response = loginRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
+			System.out.println(response);
+		});
 	}
 }

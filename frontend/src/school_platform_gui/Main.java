@@ -15,7 +15,9 @@ public class Main extends Application {
 		LoginScene loginScene = new LoginScene(root);
 		loginScene.setUsernameField();
 		loginScene.setPasswordField();
+		loginScene.setLoginButton();
 		loginScene.setVBox();
+		loginScene.setOnActionLoginButton();
 		root.setCenter(loginScene.getVBox());
 
 		primaryStage.setScene(loginScene);
