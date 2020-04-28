@@ -24,4 +24,14 @@ public class DatabaseConnector {
 	public Connection connect(String url, String user, String password) throws SQLException {
 		return DriverManager.getConnection(url, user, password);
 	}
+
+	public Connection initiate() throws SQLException {
+		Properties properties = getProperties();
+		properties.put("url", "jdbc:mysql://localhost:3306/school_plattform");
+
+		return connect(
+				properties.getProperty("url"),
+				properties.getProperty("user"),
+				properties.getProperty("password"));
+	}
 }

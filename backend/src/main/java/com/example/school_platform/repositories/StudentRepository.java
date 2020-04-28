@@ -4,35 +4,55 @@ import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.models.Student;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
 @Repository
 public class StudentRepository {
 
 	private Connection connection;
+	private Statement statement;
 
+	public StudentRepository(){
+		setupConnection();
+	}
 
-	public void initiate() throws SQLException {
-		DatabaseConnector databaseConnector = new DatabaseConnector();
-		Properties properties = databaseConnector.getProperties();
-		properties.put("url", "jdbc:mysql://localhost:3306/school_plattform");
+	public void setupConnection(){
+		DatabaseConnector connector = new DatabaseConnector();
+		try {
+			connection = connector.initiate();
+			statement = connection.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-		connection = databaseConnector.connect(
-				properties.getProperty("url"),
-				properties.getProperty("user"),
-				properties.getProperty("password"));
+	public Set<Student> getAllStudents(){
+		Set<Student> students = new HashSet<>();
+
+		try {
+			ResultSet set = statement.executeQuery("SELECT s.id, p.name, p.ssn, p.type " +
+					"FROM persons p " +
+					"INNER JOIN students s ON s.person_id = p.id " +
+					"WHERE p.type = 'STUDENT'");
+
+			while(set.next()){
+				long id = Long.parseLong(set.getString("id"));
+				String name = set.getString("name");
+				String ssn = set.getString("ssn");
+
+				students.add(new Student(id, name, ssn));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return students;
 	}
 
 	public Set<Student> getStudentsByTeacherId(long teacherId) throws NotFoundException {
 		Set<Student> students = new HashSet<>();
 		try {
-			initiate();
 			Statement statement = connection.createStatement();
 			ResultSet set = statement.executeQuery("SELECT * FROM students s " +
 					"INNER JOIN persons p ON s.person_id = p.id " +
@@ -50,5 +70,14 @@ public class StudentRepository {
 			e.printStackTrace();
 		}
 		throw new NotFoundException("No students found for teacher with id" + teacherId);
+	}
+
+	public void persistStudent(long person_id, long teacher_id) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO students(person_id, teacher_id)" +
+				"value(?, ?)");
+
+		statement.setString(1, String.valueOf(person_id));
+		statement.setString(2, String.valueOf(teacher_id));
+		statement.executeUpdate();
 	}
 }

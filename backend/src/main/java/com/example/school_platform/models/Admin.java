@@ -2,41 +2,21 @@ package com.example.school_platform.models;
 
 import com.example.school_platform.enums.PersonType;
 
-public class Admin extends Person{
+public class Admin extends Employee{
 
-	private String email;
-	private String password;
-
-	public Admin(long id, String name, String ssn, String email, String password) {
-		super(id, name, ssn, PersonType.ADMIN);
-		this.email = email;
-		this.password = password;
+	public Admin(long id, String name, String ssn, PersonType type, String email, String password, String phone) {
+		super(id, name, ssn, type, email, password, phone);
 	}
 
 	public Admin(){}
 
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	@Override
 	public String toString() {
 		return "Admin{" +
-				"email='" + email + '\'' +
-				", password='" + password + '\'' +
+				"email='" + getEmail() + '\'' +
+				", phone='" + getPhone() + '\'' +
+				", password='" + getPassword() + '\'' +
 				"} " + super.toString();
 	}
 }

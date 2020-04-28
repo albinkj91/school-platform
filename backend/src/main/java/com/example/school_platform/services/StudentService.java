@@ -1,7 +1,6 @@
 package com.example.school_platform.services;
 
 import com.example.school_platform.exceptions.NotFoundException;
-import com.example.school_platform.models.Guardian;
 import com.example.school_platform.models.Student;
 import com.example.school_platform.repositories.GuardianRepository;
 import com.example.school_platform.repositories.StudentRepository;

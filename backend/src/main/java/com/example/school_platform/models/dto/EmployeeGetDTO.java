@@ -2,7 +2,7 @@ package com.example.school_platform.models.dto;
 
 import com.example.school_platform.enums.PersonType;
 
-public class PersonGetDTO {
+public class EmployeeGetDTO {
 
 	private long id;
 	private String name;
@@ -11,7 +11,7 @@ public class PersonGetDTO {
 	private String email;
 	private String phone;
 
-	public PersonGetDTO(long id,String name, String ssn, PersonType type, String email, String phone) {
+	public EmployeeGetDTO(long id, String name, String ssn, PersonType type, String email, String phone) {
 		this.id = id;
 		this.name = name;
 		this.ssn = ssn;
@@ -20,7 +20,7 @@ public class PersonGetDTO {
 		this.phone = phone;
 	}
 
-	public PersonGetDTO(long id, String name, String ssn, PersonType type, String email) {
+	public EmployeeGetDTO(long id, String name, String ssn, PersonType type, String email) {
 		this.id = id;
 		this.name = name;
 		this.ssn = ssn;
@@ -28,7 +28,7 @@ public class PersonGetDTO {
 		this.email = email;
 	}
 
-	public PersonGetDTO(long id, String name, String ssn, PersonType type) {
+	public EmployeeGetDTO(long id, String name, String ssn, PersonType type) {
 		this.id = id;
 		this.name = name;
 		this.ssn = ssn;

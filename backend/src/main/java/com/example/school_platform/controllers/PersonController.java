@@ -1,8 +1,9 @@
 package com.example.school_platform.controllers;
 
+import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.models.Person;
-import com.example.school_platform.models.dto.PersonGetDTO;
-import com.example.school_platform.models.dto.PersonPostDTO;
+import com.example.school_platform.models.dto.EmployeeGetDTO;
+import com.example.school_platform.models.dto.EmployeePostDTO;
 import com.example.school_platform.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,32 +22,36 @@ public class PersonController {
 	}
 
 	@GetMapping("/all")
-	public Set<PersonGetDTO> getAllPersons(){
-		try {
+	public Set<EmployeeGetDTO> getAllPersons(){
+		/*try {
 			return personService.getAllPersons();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
+		 */
+		return null;
 	}
 
+
 	@PostMapping("/authenticate")
-	public boolean authenticate(@RequestParam String email, @RequestParam String password){
-		try {
-			return personService.authenticatePerson(email, password);
-		} catch (SQLException e) {
+	public Person authenticate(@RequestParam String email, @RequestParam String password){
+		/*try {
+			return personService.authenticatePerson(email, password).orElseThrow(NotFoundException::new);
+		} catch (SQLException | NotFoundException e) {
 			e.printStackTrace();
-		}
-		return false;
+			return null;
+		}*/
+		return null;
 	}
 
 	@PostMapping("/add")
-	public Person addPerson(@RequestBody PersonPostDTO personPostDTO){
-		try {
-			return personService.addPerson(personPostDTO);
+	public Person addPerson(@RequestBody EmployeePostDTO employeePostDTO){
+		/*try {
+			return personService.addPerson(employeePostDTO);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}*/
 		return null;
 	}
 }

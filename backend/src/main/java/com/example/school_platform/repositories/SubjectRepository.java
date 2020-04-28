@@ -9,29 +9,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
 @Repository
 public class SubjectRepository {
 
 	private Connection connection;
+	private Statement statement;
 
-	public void initiate() throws SQLException {
-		DatabaseConnector databaseConnector = new DatabaseConnector();
-		Properties properties = databaseConnector.getProperties();
-		properties.put("url", "jdbc:mysql://localhost:3306/school_plattform");
+	public SubjectRepository(){
+		setupConnection();
+	}
 
-		connection = databaseConnector.connect(
-				properties.getProperty("url"),
-				properties.getProperty("user"),
-				properties.getProperty("password"));
+	public void setupConnection(){
+		DatabaseConnector connector = new DatabaseConnector();
+		try {
+			connection = connector.initiate();
+			statement = connection.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Set<Subject> getSubjectsByStudentId(long studentId) throws SQLException {
 		Set<Subject> subjects = new HashSet<>();
-		initiate();
-		Statement statement = connection.createStatement();
+
 		ResultSet set = statement.executeQuery("SELECT ss.id, su.name, ss.grade FROM student_subject ss " +
 				"INNER JOIN subjects su ON ss.subject_id = su.id " +
 				"WHERE student_id = " + studentId);
