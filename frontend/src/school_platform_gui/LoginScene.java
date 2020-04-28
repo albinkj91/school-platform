@@ -9,9 +9,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 public class LoginScene extends Scene {
 
 	private TextField usernameField = new TextField();
