@@ -31,7 +31,7 @@ public class SubjectRepository {
 		}
 	}
 
-	public Set<Subject> getSubjectsByStudentId(long studentId) throws SQLException {
+	public Set<Subject> getByStudentId(long studentId) throws SQLException {
 		Set<Subject> subjects = new HashSet<>();
 
 		ResultSet set = statement.executeQuery("SELECT ss.id, su.name, ss.grade FROM student_subject ss " +

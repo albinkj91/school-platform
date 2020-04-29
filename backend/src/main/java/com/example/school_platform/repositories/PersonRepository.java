@@ -24,7 +24,7 @@ public class PersonRepository {
 		}
 	}
 
-	public long persistPerson(String name, String ssn, PersonType type) throws SQLException, PersistException {
+	public long persist(String name, String ssn, PersonType type) throws SQLException, PersistException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO persons(name, ssn, type)" +
 				"value(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		statement.setString(1, name);

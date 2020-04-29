@@ -29,7 +29,7 @@ public class GuardianRepository {
 		}
 	}
 
-	public Set<EmployeeGetDTO> getAllGuardians(){
+	public Set<EmployeeGetDTO> getAll(){
 		Set<EmployeeGetDTO> guardians = new HashSet<>();
 
 		try {
@@ -55,7 +55,7 @@ public class GuardianRepository {
 		return guardians;
 	}
 
-	public Set<GuardianGetDTO> getGuardiansByStudentId(long studentId) throws SQLException {
+	public Set<GuardianGetDTO> getByStudentId(long studentId) throws SQLException {
 		Set<GuardianGetDTO> guardians = new HashSet<>();
 		Statement statement = connection.createStatement();
 		ResultSet set = statement.executeQuery("SELECT p.name, g.id, e.email, e.phone " +
@@ -75,7 +75,7 @@ public class GuardianRepository {
 		return guardians;
 	}
 
-	public void persistGuardian(long employee_id) throws SQLException {
+	public void persist(long employee_id) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO guardians(employee_id)" +
 				"value(?)");
 

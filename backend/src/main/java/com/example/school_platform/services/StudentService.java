@@ -26,12 +26,12 @@ public class StudentService {
 	}
 
 	public Set<Student> getStudentsByTeacherId(long teacherId) throws NotFoundException {
-		Set<Student> students = studentRepository.getStudentsByTeacherId(teacherId);
+		Set<Student> students = studentRepository.getByTeacherId(teacherId);
 
 		students.forEach(s -> {
 			try {
-				s.setSubjects(subjectRepository.getSubjectsByStudentId(s.getId()));
-				s.setGuardians(guardianRepository.getGuardiansByStudentId(s.getId()));
+				s.setSubjects(subjectRepository.getByStudentId(s.getId()));
+				s.setGuardians(guardianRepository.getByStudentId(s.getId()));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

@@ -1,11 +1,13 @@
 package com.example.school_platform.controllers;
 
 import com.example.school_platform.models.Person;
-import com.example.school_platform.models.dto.EmployeeGetDTO;
 import com.example.school_platform.models.dto.EmployeePostDTO;
+import com.example.school_platform.models.dto.PersonGetDTO;
 import com.example.school_platform.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 import java.util.Set;
 
 @RestController
@@ -20,15 +22,8 @@ public class PersonController {
 	}
 
 	@GetMapping("/all")
-	public Set<EmployeeGetDTO> getAllPersons(){
-		/*try {
-			return personService.getAllPersons();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-		 */
-		return null;
+	public Set<PersonGetDTO> getAllPersons(){
+		return personService.getAllPersons();
 	}
 
 

@@ -30,7 +30,7 @@ public class TeacherRepository {
 		}
 	}
 
-	public Set<EmployeeGetDTO> getAllTeacher(){
+	public Set<EmployeeGetDTO> getAll(){
 		Set<EmployeeGetDTO> teachers = new HashSet<>();
 
 		try {
@@ -56,7 +56,7 @@ public class TeacherRepository {
 		return teachers;
 	}
 
-	public void persistTeacher(long employee_id) throws SQLException {
+	public void persist(long employee_id) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO teachers(employee_id)" +
 				"value(?)");
 

@@ -27,7 +27,7 @@ public class EmployeeRepository {
 		}
 	}
 
-	public void persistEmployee(String email, String password, String phone, long person_id){
+	public void persist(String email, String password, String phone, long person_id){
 		// TODO
 	}
 }

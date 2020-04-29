@@ -2,6 +2,7 @@ package com.example.school_platform.repositories;
 
 import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.models.Student;
+import com.example.school_platform.models.dto.StudentGetDTO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -28,8 +29,8 @@ public class StudentRepository {
 		}
 	}
 
-	public Set<Student> getAllStudents(){
-		Set<Student> students = new HashSet<>();
+	public Set<StudentGetDTO> getAll(){
+		Set<StudentGetDTO> students = new HashSet<>();
 
 		try {
 			ResultSet set = statement.executeQuery("SELECT s.id, p.name, p.ssn, p.type " +
@@ -42,7 +43,7 @@ public class StudentRepository {
 				String name = set.getString("name");
 				String ssn = set.getString("ssn");
 
-				students.add(new Student(id, name, ssn));
+				students.add(new StudentGetDTO(id, name, ssn));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -50,7 +51,7 @@ public class StudentRepository {
 		return students;
 	}
 
-	public Set<Student> getStudentsByTeacherId(long teacherId) throws NotFoundException {
+	public Set<Student> getByTeacherId(long teacherId) throws NotFoundException {
 		Set<Student> students = new HashSet<>();
 		try {
 			Statement statement = connection.createStatement();
@@ -72,7 +73,7 @@ public class StudentRepository {
 		throw new NotFoundException("No students found for teacher with id" + teacherId);
 	}
 
-	public void persistStudent(long person_id, long teacher_id) throws SQLException {
+	public void persist(long person_id, long teacher_id) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO students(person_id, teacher_id)" +
 				"value(?, ?)");
 
