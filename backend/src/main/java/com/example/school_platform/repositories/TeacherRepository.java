@@ -1,7 +1,7 @@
 package com.example.school_platform.repositories;
 
 import com.example.school_platform.enums.PersonType;
-import com.example.school_platform.models.Person;
+import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Teacher;
 import com.example.school_platform.models.dto.EmployeeGetDTO;
 import org.springframework.stereotype.Repository;
@@ -30,37 +30,40 @@ public class TeacherRepository {
 		}
 	}
 
-	public Set<EmployeeGetDTO> getAll(){
-		Set<EmployeeGetDTO> teachers = new HashSet<>();
+	public Set<Teacher> getAll() throws SQLException {
+		Set<Teacher> teachers = new HashSet<>();
 
-		try {
-			ResultSet set = statement.executeQuery("SELECT t.id, p.name, p.ssn, p.type, e.email, e.phone " +
-					"FROM persons p " +
-					"INNER JOIN employees e ON e.person_id = p.id " +
-					"INNER JOIN teachers t ON t.employee_id = e.id " +
-					"WHERE p.type = 'TEACHER'");
+		ResultSet set = statement.executeQuery("SELECT t.id, p.name, p.ssn, p.type, e.email, e.phone " +
+				"FROM persons p " +
+				"INNER JOIN employees e ON e.person_id = p.id " +
+				"INNER JOIN teachers t ON t.employee_id = e.id " +
+				"WHERE p.type = 'TEACHER'");
 
-			while(set.next()){
-				long id = Long.parseLong(set.getString("id"));
-				String name = set.getString("name");
-				String ssn = set.getString("ssn");
-				String type = set.getString("type");
-				String email = set.getString("email");
-				String phone = set.getString("phone");
+		while(set.next()){
+			long id = Long.parseLong(set.getString("id"));
+			String name = set.getString("name");
+			String ssn = set.getString("ssn");
+			String type = set.getString("type");
+			String email = set.getString("email");
+			String password = set.getString("password");
+			String phone = set.getString("phone");
 
-				teachers.add(new EmployeeGetDTO(id, name, ssn, PersonType.valueOf(type), email, phone));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			teachers.add(new Teacher(id, name, ssn, email, password, phone));
 		}
 		return teachers;
 	}
 
-	public void persist(long employee_id) throws SQLException {
+	public long persist(long employee_id) throws SQLException, PersistException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO teachers(employee_id)" +
-				"value(?)");
+				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setString(1, String.valueOf(employee_id));
+		statement.setString(1, Long.toString(employee_id));
 		statement.executeUpdate();
+		ResultSet key = statement.getGeneratedKeys();
+
+		if(key.next()){
+			return key.getLong(1);
+		}
+		throw new PersistException();
 	}
 }

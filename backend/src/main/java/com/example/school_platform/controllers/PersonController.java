@@ -2,7 +2,6 @@ package com.example.school_platform.controllers;
 
 import com.example.school_platform.models.Person;
 import com.example.school_platform.models.dto.EmployeePostDTO;
-import com.example.school_platform.models.dto.PersonGetDTO;
 import com.example.school_platform.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,20 +21,13 @@ public class PersonController {
 	}
 
 	@GetMapping("/all")
-	public Set<PersonGetDTO> getAllPersons(){
-		return personService.getAllPersons();
-	}
-
-
-	@PostMapping("/authenticate")
-	public Person authenticate(@RequestParam String email, @RequestParam String password){
-		/*try {
-			return personService.authenticatePerson(email, password).orElseThrow(NotFoundException::new);
-		} catch (SQLException | NotFoundException e) {
+	public Set<Person> getAllPersons(){
+		try {
+			return personService.getAllPersons();
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
-		}*/
-		return null;
+		}
 	}
 
 	@PostMapping("/add")

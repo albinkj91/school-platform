@@ -1,6 +1,7 @@
 package com.example.school_platform.repositories;
 
 import com.example.school_platform.exceptions.NotFoundException;
+import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Student;
 import com.example.school_platform.models.dto.StudentGetDTO;
 import org.springframework.stereotype.Repository;
@@ -29,24 +30,19 @@ public class StudentRepository {
 		}
 	}
 
-	public Set<StudentGetDTO> getAll(){
-		Set<StudentGetDTO> students = new HashSet<>();
+	public Set<Student> getAll() throws SQLException {
+		Set<Student> students = new HashSet<>();
+		ResultSet set = statement.executeQuery("SELECT s.id, p.name, p.ssn, p.type " +
+				"FROM persons p " +
+				"INNER JOIN students s ON s.person_id = p.id " +
+				"WHERE p.type = 'STUDENT'");
 
-		try {
-			ResultSet set = statement.executeQuery("SELECT s.id, p.name, p.ssn, p.type " +
-					"FROM persons p " +
-					"INNER JOIN students s ON s.person_id = p.id " +
-					"WHERE p.type = 'STUDENT'");
+		while(set.next()){
+			long id = Long.parseLong(set.getString("id"));
+			String name = set.getString("name");
+			String ssn = set.getString("ssn");
 
-			while(set.next()){
-				long id = Long.parseLong(set.getString("id"));
-				String name = set.getString("name");
-				String ssn = set.getString("ssn");
-
-				students.add(new StudentGetDTO(id, name, ssn));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			students.add(new Student(id, name, ssn));
 		}
 		return students;
 	}
@@ -73,12 +69,18 @@ public class StudentRepository {
 		throw new NotFoundException("No students found for teacher with id" + teacherId);
 	}
 
-	public void persist(long person_id, long teacher_id) throws SQLException {
+	public long persist(long person_id, long teacher_id) throws SQLException, PersistException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO students(person_id, teacher_id)" +
-				"value(?, ?)");
+				"value(?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setString(1, String.valueOf(person_id));
-		statement.setString(2, String.valueOf(teacher_id));
+		statement.setString(1, Long.toString(person_id));
+		statement.setString(2, Long.toString(teacher_id));
 		statement.executeUpdate();
+		ResultSet key = statement.getGeneratedKeys();
+
+		if(key.next()){
+			return key.getLong(1);
+		}
+		throw new PersistException();
 	}
 }

@@ -1,6 +1,8 @@
 package com.example.school_platform.repositories;
 
 import com.example.school_platform.enums.PersonType;
+import com.example.school_platform.exceptions.PersistException;
+import com.example.school_platform.models.Guardian;
 import com.example.school_platform.models.dto.EmployeeGetDTO;
 import com.example.school_platform.models.dto.GuardianGetDTO;
 import org.springframework.stereotype.Repository;
@@ -29,28 +31,24 @@ public class GuardianRepository {
 		}
 	}
 
-	public Set<EmployeeGetDTO> getAll(){
-		Set<EmployeeGetDTO> guardians = new HashSet<>();
+	public Set<Guardian> getAll() throws SQLException {
+		Set<Guardian> guardians = new HashSet<>();
 
-		try {
-			ResultSet set = statement.executeQuery("SELECT g.id, p.name, p.ssn, p.type, e.email, e.phone " +
-					"FROM persons p " +
-					"INNER JOIN employees e ON e.person_id = p.id " +
-					"INNER JOIN guardians g ON g.employee_id = e.id " +
-					"WHERE p.type = 'GUARDIAN'");
+		ResultSet set = statement.executeQuery("SELECT g.id, p.name, p.ssn, p.type, e.email, e.phone " +
+				"FROM persons p " +
+				"INNER JOIN employees e ON e.person_id = p.id " +
+				"INNER JOIN guardians g ON g.employee_id = e.id " +
+				"WHERE p.type = 'GUARDIAN'");
 
-			while(set.next()){
-				long id = Long.parseLong(set.getString("id"));
-				String name = set.getString("name");
-				String ssn = set.getString("ssn");
-				String type = set.getString("type");
-				String email = set.getString("email");
-				String phone = set.getString("phone");
+		while(set.next()){
+			long id = Long.parseLong(set.getString("id"));
+			String name = set.getString("name");
+			String ssn = set.getString("ssn");
+			String password = set.getString("password");
+			String email = set.getString("email");
+			String phone = set.getString("phone");
 
-				guardians.add(new EmployeeGetDTO(id, name, ssn, PersonType.valueOf(type), email, phone));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			guardians.add(new Guardian(id, name, ssn, email, password, phone));
 		}
 		return guardians;
 	}
@@ -75,11 +73,17 @@ public class GuardianRepository {
 		return guardians;
 	}
 
-	public void persist(long employee_id) throws SQLException {
+	public long persist(long employee_id) throws SQLException, PersistException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO guardians(employee_id)" +
-				"value(?)");
+				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setString(1, String.valueOf(employee_id));
+		statement.setString(1, Long.toString(employee_id));
 		statement.executeUpdate();
+		ResultSet key = statement.getGeneratedKeys();
+
+		if(key.next()){
+			return key.getLong(1);
+		}
+		throw new PersistException();
 	}
 }

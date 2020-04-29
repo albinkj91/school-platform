@@ -10,6 +10,7 @@ public class EmployeePostDTO {
 	private String email;
 	private String phone;
 	private String password;
+	private long personId;
 
 
 	public String getName() {
@@ -58,5 +59,13 @@ public class EmployeePostDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public long getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(long personId) {
+		this.personId = personId;
 	}
 }

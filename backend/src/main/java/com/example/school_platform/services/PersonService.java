@@ -1,6 +1,6 @@
 package com.example.school_platform.services;
 
-import com.example.school_platform.models.dto.PersonGetDTO;
+import com.example.school_platform.models.Person;
 import com.example.school_platform.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +28,8 @@ public class PersonService {
 	}
 
 
-	public Set<PersonGetDTO> getAllPersons() {
-		Set<PersonGetDTO> personGetDTOSet = new HashSet<>();
+	public Set<Person> getAllPersons() throws SQLException {
+		Set<Person> personGetDTOSet = new HashSet<>();
 		personGetDTOSet.addAll(adminRepository.getAll());
 		personGetDTOSet.addAll(guardianRepository.getAll());
 		personGetDTOSet.addAll(studentRepository.getAll());
@@ -38,22 +38,10 @@ public class PersonService {
 		return personGetDTOSet;
 	}
 
-	/*
-	    public Optional<Person> authenticatePerson(String email, String password) throws SQLException {
-		BCryptPasswordHash validator = new BCryptPasswordHash();
-		personRepository.initiate();
-		Set<Person> persons = personRepository.getAllPersons();
-		TODO - Login Authentication
-	}*/
-
 	/*public Person addPerson(EmployeePostDTO employeePostDTO) throws SQLException {
 		personRepository.initiate();
 		long id = personRepository.persistEmployee(employeePostDTO);
 
-		if (employeePostDTO.getPassword() != null) {
-			BCryptPasswordHash passwordHasher = new BCryptPasswordHash();
-			employeePostDTO.setPassword(passwordHasher.hash(employeePostDTO.getPassword()));
-		}
 		return null;
 		TODO - Add Person (Admin)
 	}*/

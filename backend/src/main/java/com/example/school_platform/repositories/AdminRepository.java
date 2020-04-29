@@ -1,6 +1,8 @@
 package com.example.school_platform.repositories;
 
 import com.example.school_platform.enums.PersonType;
+import com.example.school_platform.exceptions.PersistException;
+import com.example.school_platform.models.Admin;
 import com.example.school_platform.models.dto.EmployeeGetDTO;
 import org.springframework.stereotype.Repository;
 
@@ -28,37 +30,39 @@ public class AdminRepository {
 		}
 	}
 
-	public Set<EmployeeGetDTO> getAll(){
-		Set<EmployeeGetDTO> admins = new HashSet<>();
+	public Set<Admin> getAll() throws SQLException {
+		Set<Admin> admins = new HashSet<>();
 
-		try {
-			ResultSet set = statement.executeQuery("SELECT a.id, p.name, p.ssn, p.type, e.email, e.phone " +
-					"FROM persons p " +
-					"INNER JOIN employees e ON e.person_id = p.id " +
-					"INNER JOIN admins a ON a.employee_id = e.id " +
-					"WHERE p.type = 'ADMIN'");
+		ResultSet set = statement.executeQuery("SELECT a.id, p.name, p.ssn, p.type, e.email, e.phone " +
+				"FROM persons p " +
+				"INNER JOIN employees e ON e.person_id = p.id " +
+				"INNER JOIN admins a ON a.employee_id = e.id " +
+				"WHERE p.type = 'ADMIN'");
 
-			while(set.next()){
-				long id = Long.parseLong(set.getString("id"));
-				String name = set.getString("name");
-				String ssn = set.getString("ssn");
-				String type = set.getString("type");
-				String email = set.getString("email");
-				String phone = set.getString("phone");
+		while(set.next()){
+			long id = Long.parseLong(set.getString("id"));
+			String name = set.getString("name");
+			String ssn = set.getString("ssn");
+			String email = set.getString("email");
+			String password = set.getString("password");
+			String phone = set.getString("phone");
 
-				admins.add(new EmployeeGetDTO(id, name, ssn, PersonType.valueOf(type), email, phone));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			admins.add(new Admin(id, name, ssn, email, password, phone));
 		}
 		return admins;
 	}
 
-	public void persist(long employeeId) throws SQLException {
+	public long persist(long employeeId) throws SQLException, PersistException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO admins(employee_id)" +
-				"value(?)");
+				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setString(1, String.valueOf(employeeId));
+		statement.setString(1, Long.toString(employeeId));
 		statement.executeUpdate();
+		ResultSet key = statement.getGeneratedKeys();
+
+		if(key.next()){
+			return key.getLong(1);
+		}
+		throw new PersistException();
 	}
 }

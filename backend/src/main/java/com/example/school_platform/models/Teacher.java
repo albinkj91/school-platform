@@ -4,8 +4,8 @@ import com.example.school_platform.enums.PersonType;
 
 public class Teacher extends Employee{
 
-	public Teacher(long id, String name, String ssn, PersonType type, String email, String password, String phone) {
-		super(id, name, ssn, type, email, password, phone);
+	public Teacher(long id, String name, String ssn, String email, String password, String phone) {
+		super(id, name, ssn, PersonType.TEACHER, email, password, phone);
 	}
 
 	public Teacher(){}
