@@ -7,11 +7,13 @@ import java.util.Set;
 
 public class Student extends Person{
 
+	private Teacher teacher;
 	private Set<Subject> subjects;
 	private Set<GuardianGetDTO> guardians;
 
-	public Student(long id, String name, String ssn, Set<Subject> subjects, Set<GuardianGetDTO> guardians) {
+	public Student(long id, String name, String ssn, Set<Subject> subjects, Set<GuardianGetDTO> guardians, Teacher teacher) {
 		super(id, name, ssn, PersonType.STUDENT);
+		this.teacher = teacher;
 		this.subjects = subjects;
 		this.guardians = guardians;
 	}
@@ -21,6 +23,15 @@ public class Student extends Person{
 	}
 
 	public Student(){}
+
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
 
 	public Set<Subject> getSubjects() {
 		return subjects;

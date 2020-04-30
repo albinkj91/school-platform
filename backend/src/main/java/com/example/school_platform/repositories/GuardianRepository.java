@@ -1,9 +1,7 @@
 package com.example.school_platform.repositories;
 
-import com.example.school_platform.enums.PersonType;
 import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Guardian;
-import com.example.school_platform.models.dto.EmployeeGetDTO;
 import com.example.school_platform.models.dto.GuardianGetDTO;
 import org.springframework.stereotype.Repository;
 

@@ -2,40 +2,21 @@ package com.example.school_platform.models.dto;
 
 import com.example.school_platform.enums.PersonType;
 
-public class EmployeePostDTO {
+public class EmployeePostDTO extends PersonPostDTO{
 
-	private String name;
-	private String ssn;
-	private PersonType type;
 	private String email;
 	private String phone;
 	private String password;
 	private long personId;
 
-
-	public String getName() {
-		return name;
+	public EmployeePostDTO(String name, String ssn, PersonType type, String email, String phone, String password, long personId) {
+		super(name, ssn, type);
+		this.email = email;
+		this.phone = phone;
+		this.password = password;
+		this.personId = personId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSsn() {
-		return ssn;
-	}
-
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
-	}
-
-	public PersonType getType() {
-		return type;
-	}
-
-	public void setType(PersonType type) {
-		this.type = type;
-	}
 
 	public String getEmail() {
 		return email;

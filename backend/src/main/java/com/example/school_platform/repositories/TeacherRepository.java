@@ -43,7 +43,6 @@ public class TeacherRepository {
 			long id = Long.parseLong(set.getString("id"));
 			String name = set.getString("name");
 			String ssn = set.getString("ssn");
-			String type = set.getString("type");
 			String email = set.getString("email");
 			String password = set.getString("password");
 			String phone = set.getString("phone");

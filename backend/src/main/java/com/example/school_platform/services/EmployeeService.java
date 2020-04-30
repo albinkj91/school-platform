@@ -26,16 +26,16 @@ public class EmployeeService {
 		this.personService = personService;
 	}
 
-	public void addEmployee(EmployeePostDTO employeePostDTO) throws SQLException, PersistException {
+	public long save(EmployeePostDTO employeePostDTO) throws SQLException, PersistException {
 		BCryptPasswordHash passwordHasher = new BCryptPasswordHash();
 		employeePostDTO.setPassword(passwordHasher.hash(employeePostDTO.getPassword()));
-		employeeRepository.persist(employeePostDTO);
+		return employeeRepository.persist(employeePostDTO);
 	}
 
 	public Person authenticatePerson(String email, String password) throws SQLException, NotFoundException {
 		BCryptPasswordHash validator = new BCryptPasswordHash();
 		Optional<Person> person = personService
-				.getAllPersons()
+				.getAll()
 				.stream()
 				.filter(e -> e.getType() != PersonType.STUDENT &&
 						((Employee)e).getEmail().equals(email) &&
