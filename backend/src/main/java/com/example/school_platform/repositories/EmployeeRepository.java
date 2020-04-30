@@ -36,7 +36,7 @@ public class EmployeeRepository {
 		ResultSet key = statement.getGeneratedKeys();
 
 		if(key.next()){
-			return key.getLong("id");
+			return key.getLong(1);
 		}
 		throw new PersistException();
 	}

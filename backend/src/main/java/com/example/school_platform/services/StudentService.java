@@ -1,6 +1,5 @@
 package com.example.school_platform.services;
 
-import com.example.school_platform.enums.PersonType;
 import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Student;
@@ -18,17 +17,15 @@ public class StudentService {
 	private final StudentRepository studentRepository;
 	private final SubjectRepository subjectRepository;
 	private final GuardianRepository guardianRepository;
-	private final TeacherRepository teacherRepository;
-	private final PersonService personService;
+	private final PersonRepository personRepository;
 
 	@Autowired
-	public StudentService(StudentRepository studentRepository, SubjectRepository subjectRepository, GuardianRepository guardianRepository,
-						  TeacherRepository teacherRepository, PersonService personService){
+	public StudentService(StudentRepository studentRepository, SubjectRepository subjectRepository,
+						  GuardianRepository guardianRepository, PersonService personService, PersonRepository personRepository){
 		this.studentRepository = studentRepository;
 		this.subjectRepository = subjectRepository;
 		this.guardianRepository = guardianRepository;
-		this.teacherRepository = teacherRepository;
-		this.personService = personService;
+		this.personRepository = personRepository;
 	}
 
 
@@ -51,7 +48,7 @@ public class StudentService {
 	}
 
 	public long save(StudentPostDTO studentPostDTO) throws SQLException, PersistException {
-		long personId = personService.save(studentPostDTO);
+		long personId = personRepository.persist(studentPostDTO);
 		long studentId = studentRepository.persist(personId);
 		studentPostDTO.getGuardianIds().forEach(id -> {
 			try {

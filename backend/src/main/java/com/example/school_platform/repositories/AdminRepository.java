@@ -1,9 +1,7 @@
 package com.example.school_platform.repositories;
 
-import com.example.school_platform.enums.PersonType;
 import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Admin;
-import com.example.school_platform.models.dto.EmployeeGetDTO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -33,7 +31,7 @@ public class AdminRepository {
 	public Set<Admin> getAll() throws SQLException {
 		Set<Admin> admins = new HashSet<>();
 
-		ResultSet set = statement.executeQuery("SELECT a.id, p.name, p.ssn, p.type, e.email, e.phone " +
+		ResultSet set = statement.executeQuery("SELECT a.id, p.name, p.ssn, p.type, e.email, e.password, e.phone " +
 				"FROM persons p " +
 				"INNER JOIN employees e ON e.person_id = p.id " +
 				"INNER JOIN admins a ON a.employee_id = e.id " +

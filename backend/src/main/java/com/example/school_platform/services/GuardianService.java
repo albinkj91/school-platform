@@ -4,7 +4,9 @@ import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Guardian;
 import com.example.school_platform.models.dto.EmployeePostDTO;
 import com.example.school_platform.models.dto.GuardianGetDTO;
+import com.example.school_platform.repositories.EmployeeRepository;
 import com.example.school_platform.repositories.GuardianRepository;
+import com.example.school_platform.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,13 @@ import java.util.Set;
 public class GuardianService {
 
 	private final GuardianRepository guardianRepository;
-	private final PersonService personService;
+	private final PersonRepository personRepository;
 	private final EmployeeService employeeService;
 
 	@Autowired
-	public GuardianService(GuardianRepository guardianRepository, PersonService personService, EmployeeService employeeService) {
+	public GuardianService(GuardianRepository guardianRepository, PersonRepository personRepository, EmployeeService employeeService) {
 		this.guardianRepository = guardianRepository;
-		this.personService = personService;
+		this.personRepository = personRepository;
 		this.employeeService = employeeService;
 	}
 
@@ -35,7 +37,7 @@ public class GuardianService {
 	}
 
 	public long save(EmployeePostDTO employeePostDTO) throws SQLException, PersistException {
-		long personId = personService.save(employeePostDTO);
+		long personId = personRepository.persist(employeePostDTO);
 		employeePostDTO.setPersonId(personId);
 		long employeeId = employeeService.save(employeePostDTO);
 		return guardianRepository.persist(employeeId);

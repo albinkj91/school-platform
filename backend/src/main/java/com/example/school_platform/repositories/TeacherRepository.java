@@ -33,7 +33,7 @@ public class TeacherRepository {
 	public Set<Teacher> getAll() throws SQLException {
 		Set<Teacher> teachers = new HashSet<>();
 
-		ResultSet set = statement.executeQuery("SELECT t.id, p.name, p.ssn, p.type, e.email, e.phone " +
+		ResultSet set = statement.executeQuery("SELECT t.id, p.name, p.ssn, p.type, e.email, e.password, e.phone " +
 				"FROM persons p " +
 				"INNER JOIN employees e ON e.person_id = p.id " +
 				"INNER JOIN teachers t ON t.employee_id = e.id " +

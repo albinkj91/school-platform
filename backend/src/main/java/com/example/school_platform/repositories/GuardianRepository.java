@@ -32,7 +32,7 @@ public class GuardianRepository {
 	public Set<Guardian> getAll() throws SQLException {
 		Set<Guardian> guardians = new HashSet<>();
 
-		ResultSet set = statement.executeQuery("SELECT g.id, p.name, p.ssn, p.type, e.email, e.phone " +
+		ResultSet set = statement.executeQuery("SELECT g.id, p.name, p.ssn, p.type, e.email, e.password, e.phone " +
 				"FROM persons p " +
 				"INNER JOIN employees e ON e.person_id = p.id " +
 				"INNER JOIN guardians g ON g.employee_id = e.id " +

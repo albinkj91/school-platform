@@ -9,12 +9,11 @@ public class EmployeePostDTO extends PersonPostDTO{
 	private String password;
 	private long personId;
 
-	public EmployeePostDTO(String name, String ssn, PersonType type, String email, String phone, String password, long personId) {
+	public EmployeePostDTO(String name, String ssn, PersonType type, String email, String phone, String password) {
 		super(name, ssn, type);
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
-		this.personId = personId;
 	}
 
 
