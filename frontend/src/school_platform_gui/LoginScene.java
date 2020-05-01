@@ -8,18 +8,24 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class LoginScene extends Scene {
 
-	private TextField usernameField = new TextField();
-	private PasswordField passwordField = new PasswordField();
-	private Label usernameLabel = new Label("Username");
-	private Label passwordLabel = new Label("Password");
-	private Button loginButton = new Button("Login");
-	private VBox vBox = new VBox(10);
+	private final TextField usernameField = new TextField();
+	private final PasswordField passwordField = new PasswordField();
+	private final Label usernameLabel = new Label("Username");
+	private final Label passwordLabel = new Label("Password");
+	private final Button loginButton = new Button("Login");
+	private final VBox vBox = new VBox(10);
 
-	public LoginScene(Parent root) {
+	private final String endpoint = "http://localhost:8080/employee/authenticate";
+
+	private Stage stage;
+
+	public LoginScene(Parent root, Stage stage) {
 		super(root);
+		this.stage = stage;
 		getStylesheets().add("stylesheets/login-scene.css");
 	}
 
@@ -31,7 +37,7 @@ public class LoginScene extends Scene {
 				passwordLabel,
 				passwordField,
 				loginButton);
-		vBox.getStyleClass().add("vbox");
+		vBox.getStyleClass().add("v-box");
 	}
 
 	public VBox getVBox(){
@@ -53,10 +59,14 @@ public class LoginScene extends Scene {
 	}
 
 	public void setOnActionLoginButton(){
-		loginButton.setOnAction(e -> {
-			LoginRequest loginRequest = new LoginRequest("http://localhost:8080/employee/authenticate");
-			String response = loginRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
-			System.out.println(response);
-		});
+		loginButton.setOnAction(e -> authenticateAndRedirect());
+	}
+
+	public void authenticateAndRedirect(){
+		LoginRequest loginRequest = new LoginRequest(endpoint);
+		String response = loginRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
+		System.out.println(response);
+		SceneController sceneController = new SceneController(stage);
+		sceneController.authentication("ADMIN");
 	}
 }

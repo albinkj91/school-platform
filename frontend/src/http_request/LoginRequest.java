@@ -6,11 +6,12 @@ import java.nio.charset.StandardCharsets;
 
 public class LoginRequest {
 
-	private String urlInput;
+	private final String urlInput;
 
 	public LoginRequest(String urlInput){
 		this.urlInput = urlInput;
 	}
+
 
 	public String authenticateLogin(String username, String password) {
 		try {

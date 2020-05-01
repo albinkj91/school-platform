@@ -2,7 +2,7 @@
 	-fx-background-color: #202020;
 }
 
-.vbox{
+.v-box{
 	-fx-max-width: 500;
 	-fx-max-height: 500;
 	-fx-alignment: center;

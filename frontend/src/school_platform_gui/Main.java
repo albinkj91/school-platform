@@ -12,7 +12,7 @@ public class Main extends Application {
 		primaryStage.setMaximized(true);
 		BorderPane root = new BorderPane();
 
-		LoginScene loginScene = new LoginScene(root);
+		LoginScene loginScene = new LoginScene(root, primaryStage);
 		loginScene.setUsernameField();
 		loginScene.setPasswordField();
 		loginScene.setLoginButton();
