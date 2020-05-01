@@ -54,7 +54,7 @@ public class LoginScene extends Scene {
 
 	public void setOnActionLoginButton(){
 		loginButton.setOnAction(e -> {
-			LoginRequest loginRequest = new LoginRequest("http://localhost:8080/person/authenticate");
+			LoginRequest loginRequest = new LoginRequest("http://localhost:8080/employee/authenticate");
 			String response = loginRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
 			System.out.println(response);
 		});
