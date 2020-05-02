@@ -24,7 +24,6 @@ public class AdminScene extends Scene {
 
 	public void setTable(){
 		pane.getChildren().add(table);
-
 		table.setItems(getEmployees());
 
 		TableColumn<Employee, String> name = new TableColumn<>("Name");

@@ -12,15 +12,20 @@ public class Main extends Application {
 		primaryStage.setMaximized(true);
 		BorderPane root = new BorderPane();
 
-		LoginScene loginScene = new LoginScene(root, primaryStage);
+		/*LoginScene loginScene = new LoginScene(root, primaryStage);
 		loginScene.setUsernameField();
 		loginScene.setPasswordField();
 		loginScene.setLoginButton();
 		loginScene.setVBox();
 		loginScene.setOnActionLoginButton();
-		root.setCenter(loginScene.getVBox());
+		root.setCenter(loginScene.getVBox());*/
 
-		primaryStage.setScene(loginScene);
+		AdminScene adminScene = new AdminScene(root);
+		adminScene.setStackPane();
+		root.setCenter(adminScene.getStackPane());
+		adminScene.setTable();
+
+		primaryStage.setScene(adminScene);
 		primaryStage.show();
 	}
 }
