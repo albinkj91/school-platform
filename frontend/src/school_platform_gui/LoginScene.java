@@ -1,6 +1,6 @@
 package school_platform_gui;
 
-import http_request.LoginRequest;
+import http_request.HttpRequest;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,9 +19,7 @@ public class LoginScene extends Scene {
 	private final Button loginButton = new Button("Login");
 	private final VBox vBox = new VBox(10);
 
-	private final String endpoint = "http://localhost:8080/employee/authenticate";
-
-	private Stage stage;
+	private final Stage stage;
 
 	public LoginScene(Parent root, Stage stage) {
 		super(root);
@@ -63,8 +61,9 @@ public class LoginScene extends Scene {
 	}
 
 	public void authenticateAndRedirect(){
-		LoginRequest loginRequest = new LoginRequest(endpoint);
-		String response = loginRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
+		String endpoint = "http://localhost:8080/employee/authenticate";
+		HttpRequest httpRequest = new HttpRequest(endpoint);
+		String response = httpRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
 		SceneController sceneController = new SceneController(stage);
 		sceneController.authentication("ADMIN");
 	}

@@ -26,7 +26,10 @@ public class SceneController {
 				stage.setTitle("School Platform - Admin");
 				AdminScene adminScene = new AdminScene(borderPane);
 				adminScene.setStackPane();
+				adminScene.setVBox();
+				adminScene.setOnActionAddButton();
 				borderPane.setCenter(adminScene.getStackPane());
+				borderPane.setBottom(adminScene.getVBox());
 				changeScene(stage, adminScene);
 				adminScene.setTable();
 				break;

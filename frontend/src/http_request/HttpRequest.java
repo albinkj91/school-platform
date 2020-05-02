@@ -1,14 +1,16 @@
 package http_request;
 
+import models.Employee;
+
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 
-public class LoginRequest {
+public class HttpRequest {
 
 	private final String urlInput;
 
-	public LoginRequest(String urlInput){
+	public HttpRequest(String urlInput){
 		this.urlInput = urlInput;
 	}
 
@@ -41,6 +43,40 @@ public class LoginRequest {
 			in.close();
 			out.close();
 			return sb.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "FAILED";
+		}
+	}
+
+	public String postEmployee(Employee employee, String type, String password){
+		try {
+			URL url = new URL(urlInput);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+			String employeeAsJson = "{\"name\":\"" + employee.getName() + "\", \"ssn\":\"" + employee.getSsn() +
+					"\", \"type\":\"" + type + "\", \"email\":\"" + employee.getEmail() + "\", \"password\":\"" + password +
+					"\", \"phone\":\"" + employee.getPhone() + "\"}";
+
+			byte[] stream = employeeAsJson.getBytes(StandardCharsets.UTF_8);
+
+			connection.setDoOutput(true);
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Content-Type", "application/json;utf-8");
+
+			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+			out.write(stream);
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String read;
+			StringBuilder response = new StringBuilder();
+			while((read = in.readLine()) != null){
+				response.append(read);
+			}
+
+			in.close();
+			out.close();
+			return response.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "FAILED";

@@ -22,7 +22,10 @@ public class Main extends Application {
 
 		AdminScene adminScene = new AdminScene(root);
 		adminScene.setStackPane();
+		adminScene.setVBox();
+		adminScene.setOnActionAddButton();
 		root.setCenter(adminScene.getStackPane());
+		root.setRight(adminScene.getVBox());
 		adminScene.setTable();
 
 		primaryStage.setScene(adminScene);

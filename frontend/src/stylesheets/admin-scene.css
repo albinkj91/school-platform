@@ -2,6 +2,34 @@
 	-fx-background-color: #202020;
 }
 
+.text-field{
+	-fx-min-width: 100;
+	-fx-min-height: 30;
+	-fx-background-color: #cccccc;
+	-fx-text-fill: black;
+	-fx-font-size: 14;
+	-fx-prompt-text-fill: #404040;
+}
+
+.button{
+	-fx-min-width: 120;
+	-fx-min-height: 30;
+	-fx-background-color: #105080;
+	-fx-text-fill: #cccccc;
+	-fx-font-size: 14;
+}
+
+.button:hover{
+	-fx-background-color: #30aadd;
+	-fx-text-fill: #202020;
+}
+
+.v-box{
+	-fx-min-height: 40;
+	-fx-alignment: top-center;
+	-fx-padding: 30;
+}
+
 .stack-pane{
 	-fx-alignment: center;
 	-fx-background-color: #202020;
