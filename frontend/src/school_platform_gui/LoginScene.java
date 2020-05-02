@@ -65,7 +65,6 @@ public class LoginScene extends Scene {
 	public void authenticateAndRedirect(){
 		LoginRequest loginRequest = new LoginRequest(endpoint);
 		String response = loginRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
-		System.out.println(response);
 		SceneController sceneController = new SceneController(stage);
 		sceneController.authentication("ADMIN");
 	}

@@ -18,13 +18,17 @@ public class SceneController {
 	}
 
 	public void authentication(String userType){
+		BorderPane borderPane = new BorderPane();
+		borderPane.setPrefSize(stage.getWidth(), stage.getHeight());
+
 		switch(userType){
 			case "ADMIN":
-				BorderPane borderPane = new BorderPane();
+				stage.setTitle("School Platform - Admin");
 				AdminScene adminScene = new AdminScene(borderPane);
 				adminScene.setStackPane();
 				borderPane.setCenter(adminScene.getStackPane());
 				changeScene(stage, adminScene);
+				adminScene.setTable();
 				break;
 			case "TEACHER":
 				System.out.println("Not done yet...");

@@ -46,4 +46,22 @@ public class LoginRequest {
 			return "FAILED";
 		}
 	}
+
+	public String getAllPersons(){
+		StringBuilder sb = new StringBuilder();
+		try {
+			URL url = new URL(urlInput);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+			String read;
+			while((read = in.readLine()) != null){
+				sb.append(read);
+			}
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
 }
