@@ -1,6 +1,6 @@
 package models;
 
-public class Employee {
+public class Person {
 
 	private String name;
 	private String ssn;
@@ -8,7 +8,7 @@ public class Employee {
 	private String email;
 	private String phone;
 
-	public Employee(String name, String ssn, String type, String email, String phone) {
+	public Person(String name, String ssn, String type, String email, String phone) {
 		this.name = name;
 		this.ssn = ssn;
 		this.type = type;

@@ -70,8 +70,8 @@ public class StudentRepository {
 	}
 
 	public long persist(long person_id) throws SQLException, PersistException {
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO students(person_id, teacher_id)" +
-				"value(?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO students(person_id)" +
+				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
 		statement.setString(1, Long.toString(person_id));
 		statement.executeUpdate();

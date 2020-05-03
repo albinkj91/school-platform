@@ -34,3 +34,8 @@
 	-fx-font-size: 16;
 	-fx-text-fill: white;
 }
+
+.login-button:hover{
+	-fx-background-color: #30aadd;
+	-fx-text-fill: #202020;
+}

@@ -1,6 +1,6 @@
 package http_request;
 
-import models.Employee;
+import models.Person;
 
 import java.io.*;
 import java.net.*;
@@ -49,16 +49,13 @@ public class HttpRequest {
 		}
 	}
 
-	public String postEmployee(Employee employee, String password){
+	public String postPerson(Person person, String password){
 		try {
 			URL url = new URL(urlInput);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-			String employeeAsJson = "{\"name\":\"" + employee.getName() + "\", \"ssn\":\"" + employee.getSsn() +
-					"\", \"type\":\"" + employee.getType() + "\", \"email\":\"" + employee.getEmail() + "\", \"password\":\"" + password +
-					"\", \"phone\":\"" + employee.getPhone() + "\"}";
-
-			byte[] stream = employeeAsJson.getBytes(StandardCharsets.UTF_8);
+			String personAsJson = personToJson(person, password);
+			byte[] stream = personAsJson.getBytes(StandardCharsets.UTF_8);
 
 			connection.setDoOutput(true);
 			connection.setRequestMethod("POST");
@@ -80,6 +77,17 @@ public class HttpRequest {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "FAILED";
+		}
+	}
+
+	public String personToJson(Person person, String password){
+		if(person.getType().equals("STUDENT")){
+			return "{\"name\":\"" + person.getName() + "\", \"ssn\":\"" + person.getSsn() +
+					"\"}";
+		}else {
+			return "{\"name\":\"" + person.getName() + "\", \"ssn\":\"" + person.getSsn() +
+					"\", \"type\":\"" + person.getType() + "\", \"email\":\"" + person.getEmail() + "\", \"password\":\"" + password +
+					"\", \"phone\":\"" + person.getPhone() + "\"}";
 		}
 	}
 

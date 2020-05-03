@@ -1,13 +1,13 @@
 package utilities;
 
-import models.Employee;
+import models.Person;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class JsonConverter {
 
-	public static Employee convertEmployee(String json){
+	public static Person convertEmployee(String json){
 		String[] array = json.split(",");
 		Map<String, String> map = new HashMap<>();
 
@@ -17,6 +17,6 @@ public class JsonConverter {
 			map.put(keyPair[0], keyPair[1]);
 		}
 
-		return new Employee(map.get("name"), map.get("ssn"), map.get("type"), map.get("email"), map.get("phone"));
+		return new Person(map.get("name"), map.get("ssn"), map.get("type"), map.get("email"), map.get("phone"));
 	}
 }

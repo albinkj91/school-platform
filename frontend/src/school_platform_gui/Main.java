@@ -19,6 +19,7 @@ public class Main extends Application {
 		loginScene.setVBox();
 		loginScene.setOnActionLoginButton();
 		root.setCenter(loginScene.getVBox());
+		primaryStage.setScene(loginScene);
 
 		// If you want to go directly to admin-page use this instead of the above code
 
@@ -28,9 +29,9 @@ public class Main extends Application {
 		adminScene.setOnActionAddButton();
 		root.setCenter(adminScene.getStackPane());
 		root.setRight(adminScene.getVBox());
-		adminScene.setTable();*/
+		adminScene.setTable();
+		primaryStage.setScene(adminScene);*/
 
-		primaryStage.setScene(loginScene);
 		primaryStage.show();
 	}
 }

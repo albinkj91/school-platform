@@ -2,6 +2,17 @@
 	-fx-background-color: #202020;
 }
 
+.combo-box .list-cell:hover{
+	-fx-background-color: crimson;
+}
+
+.combo-box-base{
+	-fx-background-color: #cccccc;
+	-fx-prompt-text-fill: #404040;
+	-fx-min-width: 100;
+	-fx-min-height: 30
+}
+
 .text-field{
 	-fx-min-width: 100;
 	-fx-min-height: 30;
@@ -9,6 +20,11 @@
 	-fx-text-fill: black;
 	-fx-font-size: 14;
 	-fx-prompt-text-fill: #404040;
+}
+
+.text-field:focused{
+	-fx-background-color: white;
+	-fx-text-fill: black;
 }
 
 .button{

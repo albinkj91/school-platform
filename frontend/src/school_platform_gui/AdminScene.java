@@ -9,17 +9,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import models.Employee;
+import models.Person;
 import utilities.JsonConverter;
 
 public class AdminScene extends Scene {
 
 	private final StackPane pane = new StackPane();
-	private final TableView<Employee> table = new TableView<>();
-
+	private final TableView<Person> table = new TableView<>();
 	private final VBox vBox = new VBox(10);
-	private final TextField[] inputs = new TextField[6];
+	private final ComboBox<String> personType = new ComboBox<>();
+	private final TextField[] inputs = new TextField[5];
 	private final Button add = new Button("Add");
+
+	private String currentPerson = "";
 
 	public AdminScene(Parent root) {
 		super(root);
@@ -28,14 +30,14 @@ public class AdminScene extends Scene {
 
 	public void setTable(){
 		pane.getChildren().add(table);
-		table.setItems(getEmployees());
+		table.setItems(getPersons());
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		TableColumn<Employee, String> name = new TableColumn<>("Name");
-		TableColumn<Employee, String> ssn = new TableColumn<>("SSN");
-		TableColumn<Employee, String> type = new TableColumn<>("Type");
-		TableColumn<Employee, String> email = new TableColumn<>("E-mail");
-		TableColumn<Employee, String> phone = new TableColumn<>("Phone");
+		TableColumn<Person, String> name = new TableColumn<>("Name");
+		TableColumn<Person, String> ssn = new TableColumn<>("SSN");
+		TableColumn<Person, String> type = new TableColumn<>("Type");
+		TableColumn<Person, String> email = new TableColumn<>("E-mail");
+		TableColumn<Person, String> phone = new TableColumn<>("Phone");
 
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		ssn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
@@ -50,25 +52,40 @@ public class AdminScene extends Scene {
 		table.getColumns().add(phone);
 	}
 
-	public ObservableList<Employee> getEmployees(){
+	public ObservableList<Person> getPersons(){
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/person/all");
 		String response = httpRequest.getAllPersons();
 		String[] objects = response.split("},");
-		ObservableList<Employee> employees = FXCollections.observableArrayList();
+		ObservableList<Person> people = FXCollections.observableArrayList();
 
 		for(String s : objects){
-			employees.add(JsonConverter.convertEmployee(s));
+			people.add(JsonConverter.convertEmployee(s));
 		}
 
-		return employees;
+		return people;
+	}
+
+	public void setVBoxByPersonType(){
+		String value = personType.getValue();
+
+		if(value.equals("STUDENT")){
+			vBox.getChildren().removeAll(inputs[2], inputs[3],inputs[4]);
+			currentPerson = "STUDENT";
+		}else if(currentPerson.equals("STUDENT")){
+			vBox.getChildren().remove(add);
+			vBox.getChildren().addAll(inputs[2], inputs[3], inputs[4], add);
+			currentPerson = value;
+		}
 	}
 
 	public void setVBox(){
-		vBox.getStyleClass().add("v-box");
-		String[] promptTitles = {"Name", "SSN", "Type", "E-mail", "Password", "Phone"};
+		personType.setPromptText("Type");
+		personType.getItems().addAll("ADMIN", "GUARDIAN", "STUDENT", "TEACHER");
+		personType.setOnAction(e -> setVBoxByPersonType());
+		String[] promptTitles = {"Name", "SSN", "E-mail", "Password", "Phone"};
 
 		for(int i = 0; i < inputs.length; i++){
-			if(i == 4){
+			if(i == 3){
 				inputs[i] = new PasswordField();
 			}else {
 				inputs[i] = new TextField();
@@ -76,22 +93,24 @@ public class AdminScene extends Scene {
 			inputs[i].setPromptText(promptTitles[i]);
 		}
 
+		vBox.getChildren().add(personType);
 		vBox.getChildren().addAll(inputs);
 		vBox.getChildren().add(add);
+		vBox.getStyleClass().add("v-box");
 	}
 
-	public void addEmployee(){
-		Employee employee = new Employee(
+	public void addPerson(){
+		Person person = new Person(
 				inputs[0].getText(),
 				inputs[1].getText(),
+				personType.getValue(),
 				inputs[2].getText(),
-				inputs[3].getText(),
-				inputs[5].getText());
-		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/" + inputs[2].getText().toLowerCase() + "/add");
-		String response = httpRequest.postEmployee(employee, inputs[4].getText());
+				inputs[4].getText());
+		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/" + personType.getValue().toLowerCase() + "/add");
+		String response = httpRequest.postPerson(person, inputs[4].getText());
 
 		if(!response.equalsIgnoreCase("failed")){
-			table.getItems().add(employee);
+			table.getItems().add(person);
 			for(TextField input : inputs){
 				input.setText("");
 			}
@@ -99,9 +118,7 @@ public class AdminScene extends Scene {
 	}
 
 	public void setOnActionAddButton(){
-		add.setOnAction(e -> {
-			addEmployee();
-		});
+		add.setOnAction(e -> addPerson());
 	}
 
 	public void setStackPane(){
