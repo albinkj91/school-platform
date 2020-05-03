@@ -52,8 +52,13 @@
 	-fx-border-color: #404040;
 }
 
+.table-view .arrow{
+	-fx-mark-color: white;
+}
+
 .table-view .column-header .label{
 	-fx-text-fill: white;
+	-fx-font-size: 16;
 	-fx-font-weight: bold;
 	-fx-alignment: CENTER_LEFT;
 }
@@ -62,6 +67,7 @@
 	-fx-background-color: #303030;
 	-fx-border-color: #303030;
 	-fx-text-fill: lightgray;
+	-fx-font-size: 14;
 	-fx-alignment: CENTER_LEFT;
 }
 

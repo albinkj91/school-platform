@@ -1,6 +1,8 @@
 package school_platform_gui;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -29,12 +31,16 @@ public class SceneController {
 				adminScene.setVBox();
 				adminScene.setOnActionAddButton();
 				borderPane.setCenter(adminScene.getStackPane());
-				borderPane.setBottom(adminScene.getVBox());
+				borderPane.setRight(adminScene.getVBox());
 				changeScene(stage, adminScene);
 				adminScene.setTable();
 				break;
 			case "TEACHER":
-				System.out.println("Not done yet...");
+				// TODO
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setHeaderText("No page for teacher profiles yet.");
+				alert.setTitle("Unavailable");
+				alert.show();
 				break;
 		}
 	}

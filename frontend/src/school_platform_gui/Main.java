@@ -12,23 +12,25 @@ public class Main extends Application {
 		primaryStage.setMaximized(true);
 		BorderPane root = new BorderPane();
 
-		/*LoginScene loginScene = new LoginScene(root, primaryStage);
+		LoginScene loginScene = new LoginScene(root, primaryStage);
 		loginScene.setUsernameField();
 		loginScene.setPasswordField();
 		loginScene.setLoginButton();
 		loginScene.setVBox();
 		loginScene.setOnActionLoginButton();
-		root.setCenter(loginScene.getVBox());*/
+		root.setCenter(loginScene.getVBox());
 
-		AdminScene adminScene = new AdminScene(root);
+		// If you want to go directly to admin-page use this instead of the above code
+
+		/*AdminScene adminScene = new AdminScene(root);
 		adminScene.setStackPane();
 		adminScene.setVBox();
 		adminScene.setOnActionAddButton();
 		root.setCenter(adminScene.getStackPane());
 		root.setRight(adminScene.getVBox());
-		adminScene.setTable();
+		adminScene.setTable();*/
 
-		primaryStage.setScene(adminScene);
+		primaryStage.setScene(loginScene);
 		primaryStage.show();
 	}
 }

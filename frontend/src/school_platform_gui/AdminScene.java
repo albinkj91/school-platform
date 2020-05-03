@@ -33,16 +33,19 @@ public class AdminScene extends Scene {
 
 		TableColumn<Employee, String> name = new TableColumn<>("Name");
 		TableColumn<Employee, String> ssn = new TableColumn<>("SSN");
+		TableColumn<Employee, String> type = new TableColumn<>("Type");
 		TableColumn<Employee, String> email = new TableColumn<>("E-mail");
 		TableColumn<Employee, String> phone = new TableColumn<>("Phone");
 
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		ssn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+		type.setCellValueFactory(new PropertyValueFactory<>("type"));
 		email.setCellValueFactory(new PropertyValueFactory<>("email"));
 		phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
 		table.getColumns().add(name);
 		table.getColumns().add(ssn);
+		table.getColumns().add(type);
 		table.getColumns().add(email);
 		table.getColumns().add(phone);
 	}
@@ -81,11 +84,18 @@ public class AdminScene extends Scene {
 		Employee employee = new Employee(
 				inputs[0].getText(),
 				inputs[1].getText(),
+				inputs[2].getText(),
 				inputs[3].getText(),
 				inputs[5].getText());
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/" + inputs[2].getText().toLowerCase() + "/add");
-		String response = httpRequest.postEmployee(employee, inputs[2].getText(), inputs[4].getText());
-		System.out.println("Response from post: " + response);
+		String response = httpRequest.postEmployee(employee, inputs[4].getText());
+
+		if(!response.equalsIgnoreCase("failed")){
+			table.getItems().add(employee);
+			for(TextField input : inputs){
+				input.setText("");
+			}
+		}
 	}
 
 	public void setOnActionAddButton(){

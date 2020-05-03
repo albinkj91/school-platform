@@ -17,6 +17,6 @@ public class JsonConverter {
 			map.put(keyPair[0], keyPair[1]);
 		}
 
-		return new Employee(map.get("name"), map.get("ssn"), map.get("email"), map.get("phone"));
+		return new Employee(map.get("name"), map.get("ssn"), map.get("type"), map.get("email"), map.get("phone"));
 	}
 }

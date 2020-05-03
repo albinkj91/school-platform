@@ -49,13 +49,13 @@ public class HttpRequest {
 		}
 	}
 
-	public String postEmployee(Employee employee, String type, String password){
+	public String postEmployee(Employee employee, String password){
 		try {
 			URL url = new URL(urlInput);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
 			String employeeAsJson = "{\"name\":\"" + employee.getName() + "\", \"ssn\":\"" + employee.getSsn() +
-					"\", \"type\":\"" + type + "\", \"email\":\"" + employee.getEmail() + "\", \"password\":\"" + password +
+					"\", \"type\":\"" + employee.getType() + "\", \"email\":\"" + employee.getEmail() + "\", \"password\":\"" + password +
 					"\", \"phone\":\"" + employee.getPhone() + "\"}";
 
 			byte[] stream = employeeAsJson.getBytes(StandardCharsets.UTF_8);

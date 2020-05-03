@@ -9,6 +9,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import models.Employee;
+import utilities.JsonConverter;
 
 public class LoginScene extends Scene {
 
@@ -64,7 +66,8 @@ public class LoginScene extends Scene {
 		String endpoint = "http://localhost:8080/employee/authenticate";
 		HttpRequest httpRequest = new HttpRequest(endpoint);
 		String response = httpRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
+		Employee employee = JsonConverter.convertEmployee(response);
 		SceneController sceneController = new SceneController(stage);
-		sceneController.authentication("ADMIN");
+		sceneController.authentication(employee.getType());
 	}
 }
