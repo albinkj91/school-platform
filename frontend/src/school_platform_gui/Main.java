@@ -21,7 +21,7 @@ public class Main extends Application {
 		root.setCenter(loginScene.getVBox());
 		primaryStage.setScene(loginScene);
 
-		// If you want to go directly to admin-page use this instead of the above code
+		// Admin-page
 
 		/*AdminScene adminScene = new AdminScene(root);
 		adminScene.setStackPane();
@@ -31,6 +31,14 @@ public class Main extends Application {
 		root.setRight(adminScene.getVBox());
 		adminScene.setTable();
 		primaryStage.setScene(adminScene);*/
+
+		// Teacher-page
+
+		/*TeacherScene teacherScene = new TeacherScene(root, new Person(1, "", "", "", "", ""));
+		teacherScene.setGridPane();
+		teacherScene.setCheckBoxes();
+		root.setCenter(teacherScene.getGridPane());
+		primaryStage.setScene(teacherScene);*/
 
 		primaryStage.show();
 	}

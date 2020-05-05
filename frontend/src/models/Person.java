@@ -2,20 +2,34 @@ package models;
 
 public class Person {
 
+	private long id;
 	private String name;
 	private String ssn;
 	private String type;
-	private String email;
-	private String phone;
 
-	public Person(String name, String ssn, String type, String email, String phone) {
+	public Person(long id, String name, String ssn, String type) {
+		this.id = id;
 		this.name = name;
 		this.ssn = ssn;
 		this.type = type;
-		this.email = email;
-		this.phone = phone;
 	}
 
+	public Person(String name, String ssn, String type) {
+		this.name = name;
+		this.ssn = ssn;
+		this.type = type;
+	}
+
+
+
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -41,30 +55,13 @@ public class Person {
 		this.type = type;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	@Override
 	public String toString() {
-		return "Employee{" +
-				"name='" + name + '\'' +
+		return "Person{" +
+				"id=" + id +
+				", name='" + name + '\'' +
 				", ssn='" + ssn + '\'' +
 				", type='" + type + '\'' +
-				", email='" + email + '\'' +
-				", phone='" + phone + '\'' +
 				'}';
 	}
 }

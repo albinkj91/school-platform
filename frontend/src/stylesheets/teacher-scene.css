@@ -1,0 +1,15 @@
+.root{
+	-fx-background-color: #303030;
+}
+
+.grid-pane{
+	-fx-background-color: #105080;
+	-fx-max-width: 400;
+	-fx-max-height: 900;
+	-fx-alignment: center;
+	-fx-background-radius: 10;
+}
+
+.check-box{
+	-fx-text-fill: #cccccc;
+}

@@ -9,13 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import models.Person;
+import models.Employee;
 import utilities.JsonConverter;
 
 public class AdminScene extends Scene {
 
 	private final StackPane pane = new StackPane();
-	private final TableView<Person> table = new TableView<>();
+	private final TableView<Employee> table = new TableView<>();
 	private final VBox vBox = new VBox(10);
 	private final ComboBox<String> personType = new ComboBox<>();
 	private final TextField[] inputs = new TextField[5];
@@ -30,14 +30,14 @@ public class AdminScene extends Scene {
 
 	public void setTable(){
 		pane.getChildren().add(table);
-		table.setItems(getPersons());
+		table.setItems(fetchPersons());
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		TableColumn<Person, String> name = new TableColumn<>("Name");
-		TableColumn<Person, String> ssn = new TableColumn<>("SSN");
-		TableColumn<Person, String> type = new TableColumn<>("Type");
-		TableColumn<Person, String> email = new TableColumn<>("E-mail");
-		TableColumn<Person, String> phone = new TableColumn<>("Phone");
+		TableColumn<Employee, String> name = new TableColumn<>("Name");
+		TableColumn<Employee, String> ssn = new TableColumn<>("SSN");
+		TableColumn<Employee, String> type = new TableColumn<>("Type");
+		TableColumn<Employee, String> email = new TableColumn<>("E-mail");
+		TableColumn<Employee, String> phone = new TableColumn<>("Phone");
 
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		ssn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
@@ -52,17 +52,12 @@ public class AdminScene extends Scene {
 		table.getColumns().add(phone);
 	}
 
-	public ObservableList<Person> getPersons(){
+	public ObservableList<Employee> fetchPersons(){
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/person/all");
 		String response = httpRequest.getAllPersons();
-		String[] objects = response.split("},");
-		ObservableList<Person> people = FXCollections.observableArrayList();
+		Employee[] employees = JsonConverter.convertEmployees(response);
 
-		for(String s : objects){
-			people.add(JsonConverter.convertEmployee(s));
-		}
-
-		return people;
+		return  FXCollections.observableArrayList(employees);
 	}
 
 	public void setVBoxByPersonType(){
@@ -100,17 +95,18 @@ public class AdminScene extends Scene {
 	}
 
 	public void addPerson(){
-		Person person = new Person(
+		Employee employee = new Employee(
 				inputs[0].getText(),
 				inputs[1].getText(),
 				personType.getValue(),
 				inputs[2].getText(),
 				inputs[4].getText());
+
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/" + personType.getValue().toLowerCase() + "/add");
-		String response = httpRequest.postPerson(person, inputs[4].getText());
+		String response = httpRequest.postPerson(employee, inputs[4].getText());
 
 		if(!response.equalsIgnoreCase("failed")){
-			table.getItems().add(person);
+			table.getItems().add(employee);
 			for(TextField input : inputs){
 				input.setText("");
 			}

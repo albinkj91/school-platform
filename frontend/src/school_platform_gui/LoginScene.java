@@ -9,7 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import models.Person;
+import models.Employee;
 import utilities.JsonConverter;
 
 public class LoginScene extends Scene {
@@ -63,11 +63,10 @@ public class LoginScene extends Scene {
 	}
 
 	public void authenticateAndRedirect(){
-		String endpoint = "http://localhost:8080/employee/authenticate";
-		HttpRequest httpRequest = new HttpRequest(endpoint);
+		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/employee/authenticate");
 		String response = httpRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
-		Person person = JsonConverter.convertEmployee(response);
+		Employee employee = JsonConverter.convertEmployee(response);
 		SceneController sceneController = new SceneController(stage);
-		sceneController.authentication(person.getType());
+		sceneController.authentication(employee);
 	}
 }

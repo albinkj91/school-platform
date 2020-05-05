@@ -1,6 +1,7 @@
 package http_request;
 
-import models.Person;
+import models.Employee;
+import utilities.JsonConverter;
 
 import java.io.*;
 import java.net.*;
@@ -49,12 +50,12 @@ public class HttpRequest {
 		}
 	}
 
-	public String postPerson(Person person, String password){
+	public String postPerson(Employee employee, String password){
 		try {
 			URL url = new URL(urlInput);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-			String personAsJson = personToJson(person, password);
+			String personAsJson = JsonConverter.personToJson(employee, password);
 			byte[] stream = personAsJson.getBytes(StandardCharsets.UTF_8);
 
 			connection.setDoOutput(true);
@@ -80,17 +81,6 @@ public class HttpRequest {
 		}
 	}
 
-	public String personToJson(Person person, String password){
-		if(person.getType().equals("STUDENT")){
-			return "{\"name\":\"" + person.getName() + "\", \"ssn\":\"" + person.getSsn() +
-					"\"}";
-		}else {
-			return "{\"name\":\"" + person.getName() + "\", \"ssn\":\"" + person.getSsn() +
-					"\", \"type\":\"" + person.getType() + "\", \"email\":\"" + person.getEmail() + "\", \"password\":\"" + password +
-					"\", \"phone\":\"" + person.getPhone() + "\"}";
-		}
-	}
-
 	public String getAllPersons(){
 		StringBuilder sb = new StringBuilder();
 		try {
@@ -107,5 +97,25 @@ public class HttpRequest {
 			e.printStackTrace();
 		}
 		return sb.toString();
+	}
+
+	public String getStudentsByTeacher(){
+		try {
+			URL url = new URL(urlInput);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+			String read;
+			StringBuilder sb = new StringBuilder();
+			while((read = in.readLine()) != null){
+				sb.append(read);
+			}
+
+			in.close();
+			return sb.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "FAILED";
+		}
 	}
 }

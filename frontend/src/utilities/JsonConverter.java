@@ -1,22 +1,34 @@
 package utilities;
 
-import models.Person;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.Gson;
+import models.Employee;
+import models.Student;
 
 public class JsonConverter {
 
-	public static Person convertEmployee(String json){
-		String[] array = json.split(",");
-		Map<String, String> map = new HashMap<>();
+	public static Employee convertEmployee(String json){
+		Gson gson = new Gson();
+		return gson.fromJson(json, Employee.class);
+	}
 
-		for(String s : array){
-			s = s.replaceAll("[{}\"\\[\\]]", "");
-			String[] keyPair = s.split(":");
-			map.put(keyPair[0], keyPair[1]);
+	public static Employee[] convertEmployees(String json){
+		Gson gson = new Gson();
+		return gson.fromJson(json, Employee[].class);
+	}
+
+	public static Student[] convertStudents(String studentsAsJson) {
+		Gson gson = new Gson();
+		return gson.fromJson(studentsAsJson, Student[].class);
+	}
+
+	public static String personToJson(Employee employee, String password){
+		if(employee.getType().equals("STUDENT")){
+			return "{\"name\":\"" + employee.getName() + "\", \"ssn\":\"" + employee.getSsn() +
+					"\"}";
+		}else {
+			return "{\"name\":\"" + employee.getName() + "\", \"ssn\":\"" + employee.getSsn() +
+					"\", \"type\":\"" + employee.getType() + "\", \"email\":\"" + employee.getEmail() + "\", \"password\":\"" + password +
+					"\", \"phone\":\"" + employee.getPhone() + "\"}";
 		}
-
-		return new Person(map.get("name"), map.get("ssn"), map.get("type"), map.get("email"), map.get("phone"));
 	}
 }
