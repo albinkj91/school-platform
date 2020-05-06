@@ -1,50 +1,39 @@
 package models;
 
-import java.util.Arrays;
+import java.util.Set;
 
 public class Student extends Person {
 
-	private Employee teacher;
-	private Employee[] guardians;
-	private Subject[] subjects;
+	private long teacherId;
+	private Set<Long> guardianIds;
 
-	public Student(long id, String name, String ssn, String type, Employee[] guardians, Subject[] subjects) {
-		super(id, name, ssn, type);
-		this.guardians = guardians;
-		this.subjects = subjects;
+	public Student(String name, String ssn, String type, long teacherId, Set<Long> guardianIds) {
+		super(name, ssn, type);
+		this.teacherId = teacherId;
+		this.guardianIds = guardianIds;
 	}
 
-
-	public Employee getTeacher() {
-		return teacher;
+	public long getTeacherId() {
+		return teacherId;
 	}
 
-	public void setTeacher(Employee teacher) {
-		this.teacher = teacher;
+	public void setTeacherId(long teacherId) {
+		this.teacherId = teacherId;
 	}
 
-	public Employee[] getGuardians() {
-		return guardians;
+	public Set<Long> getGuardianIds() {
+		return guardianIds;
 	}
 
-	public void setGuardians(Employee[] guardians) {
-		this.guardians = guardians;
-	}
-
-	public Subject[] getSubjects() {
-		return subjects;
-	}
-
-	public void setSubjects(Subject[] subjects) {
-		this.subjects = subjects;
+	public void setGuardianIds(Set<Long> guardianIds) {
+		this.guardianIds = guardianIds;
 	}
 
 	@Override
 	public String toString() {
 		return "Student{" +
-				"teacher=" + teacher +
-				", guardians=" + Arrays.toString(guardians) +
-				", subjects=" + Arrays.toString(subjects) +
+				"teacherId=" + teacherId +
+				", guardianIds=" + guardianIds +
 				"} " + super.toString();
 	}
 }

@@ -6,21 +6,21 @@ import java.util.Set;
 
 public class StudentPostDTO extends PersonPostDTO {
 
-	private String teacherId;
+	private long teacherId;
 	private Set<Long> guardianIds;
 
-	public StudentPostDTO(String name, String ssn, String teacherId, Set<Long> guardianIds) {
+	public StudentPostDTO(String name, String ssn, long teacherId, Set<Long> guardianIds) {
 		super(name, ssn, PersonType.STUDENT);
 		this.teacherId = teacherId;
 		this.guardianIds = guardianIds;
 	}
 
 
-	public String getTeacherId() {
+	public long getTeacherId() {
 		return teacherId;
 	}
 
-	public void setTeacherId(String teacherId) {
+	public void setTeacherId(long teacherId) {
 		this.teacherId = teacherId;
 	}
 
@@ -30,5 +30,13 @@ public class StudentPostDTO extends PersonPostDTO {
 
 	public void setGuardianIds(Set<Long> guardianIds) {
 		this.guardianIds = guardianIds;
+	}
+
+	@Override
+	public String toString() {
+		return "StudentPostDTO{" +
+				"teacherId=" + teacherId +
+				", guardianIds=" + guardianIds +
+				"} " + super.toString();
 	}
 }

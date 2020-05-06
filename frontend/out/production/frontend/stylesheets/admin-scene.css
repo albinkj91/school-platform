@@ -22,6 +22,15 @@
 	-fx-prompt-text-fill: #404040;
 }
 
+.text-area .content{
+	-fx-background-color: #404040;
+}
+
+.text-area{
+	-fx-max-width: 200;
+	-fx-text-fill: #cccccc;
+}
+
 .text-field:focused{
 	-fx-background-color: white;
 	-fx-text-fill: black;

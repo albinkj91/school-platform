@@ -69,11 +69,12 @@ public class StudentRepository {
 		throw new NotFoundException("No students found for teacher with id" + teacherId);
 	}
 
-	public long persist(long person_id) throws SQLException, PersistException {
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO students(person_id)" +
-				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
+	public long persist(long personId, long teacherId) throws SQLException, PersistException {
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO students(person_id, teacher_id)" +
+				"value(?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setString(1, Long.toString(person_id));
+		statement.setString(1, Long.toString(personId));
+		statement.setString(2, Long.toString(teacherId));
 		statement.executeUpdate();
 		ResultSet key = statement.getGeneratedKeys();
 
@@ -83,7 +84,7 @@ public class StudentRepository {
 		throw new PersistException();
 	}
 
-	public long persist(long studentId, long guardianId) throws SQLException, PersistException {
+	public long persistGuardianRelation(long studentId, long guardianId) throws SQLException, PersistException {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO student_guardian(student_id, guardian_id)" +
 				"value(?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 

@@ -23,16 +23,7 @@ public class JsonConverter {
 	}
 
 	public static String personToJson(Person person){
-		if(person.getType().equals("STUDENT")){
-			return "{\"name\":\"" + person.getName() + "\", \"ssn\":\"" + person.getSsn() +
-					"\"}";
-		}else {
-			Gson gson = new Gson();
-			return gson.toJson(person);
-			/*Employee employee = (Employee) person;
-			return "{\"name\":\"" + employee.getName() + "\", \"ssn\":\"" + employee.getSsn() +
-					"\", \"type\":\"" + employee.getType() + "\", \"email\":\"" + employee.getEmail() + "\"," +
-					"\"password\":\"" + employee.getPassword() + "\", \"phone\":\"" + employee.getPhone() + "\"}";*/
-		}
+		Gson gson = new Gson();
+		return gson.toJson(person);
 	}
 }

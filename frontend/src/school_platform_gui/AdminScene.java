@@ -3,7 +3,6 @@ package school_platform_gui;
 import http_request.HttpRequest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,21 +11,26 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import models.Employee;
 import models.Person;
+import models.Student;
 import utilities.JsonConverter;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class AdminScene extends Scene {
 
 	private final StackPane pane = new StackPane();
 	private final TableView<Person> table = new TableView<>();
+
 	private final VBox vBox = new VBox(10);
 	private final ComboBox<String> personType = new ComboBox<>();
 	private final TextField[] inputs = new TextField[5];
-	private final TextField teacherSearch = new TextField();
-	private final ContextMenu teacherSearchResult = new ContextMenu();
+	private final SearchField teacherSearch;
+	private final SearchField guardianSearch;
+	private final TextArea guardiansAdded = new TextArea();
 	private final Button add = new Button("Add");
 
 	private String currentPerson = "";
@@ -34,9 +38,14 @@ public class AdminScene extends Scene {
 	public AdminScene(Parent root) {
 		super(root);
 		getStylesheets().add("stylesheets/admin-scene.css");
+		teacherSearch = new SearchField(vBox);
+		teacherSearch.setPromptText("Teacher");
+		guardianSearch = new SearchField(vBox);
+		guardianSearch.setPromptText("Guardians");
+		guardiansAdded.setEditable(false);
 	}
 
-	public void setTable(){
+	public void setTable() {
 		pane.getChildren().add(table);
 		table.setItems(fetchPersons());
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -60,40 +69,43 @@ public class AdminScene extends Scene {
 		table.getColumns().add(phone);
 	}
 
-	public ObservableList<Person> fetchPersons(){
+	public ObservableList<Person> fetchPersons() {
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/person/all");
 		String response = httpRequest.getAllPersons();
-		Employee[] employees = JsonConverter.convertEmployees(response);
+		Employee[] persons = JsonConverter.convertEmployees(response);
 
-		return  FXCollections.observableArrayList(employees);
+		return FXCollections.observableArrayList(persons);
 	}
 
-	public void setVBoxByPersonType(){
+	public void setVBoxByPersonType() {
 		String value = personType.getValue();
 
-		if(value.equals("STUDENT")){
-			vBox.getChildren().removeAll(inputs[2], inputs[3],inputs[4]);
+		if (value.equals("STUDENT")) {
+			vBox.getChildren().removeAll(inputs[2], inputs[3], inputs[4]);
 			vBox.getChildren().remove(add);
-			setTeacherSearch();
-			vBox.getChildren().add(add);
+			teacherSearch.setSearch(table.getItems(), "TEACHER");
+			setTeacherSearchActionListener();
+			guardianSearch.setSearch(table.getItems(), "GUARDIAN");
+			setGuardianSearchActionListener();
+			vBox.getChildren().addAll(guardiansAdded, add);
 			currentPerson = "STUDENT";
-		}else if(currentPerson.equals("STUDENT")){
-			vBox.getChildren().remove(add);
+		} else if (currentPerson.equals("STUDENT")) {
+			vBox.getChildren().removeAll(add, teacherSearch, guardianSearch, guardiansAdded);
 			vBox.getChildren().addAll(inputs[2], inputs[3], inputs[4], add);
 			currentPerson = value;
 		}
 	}
 
-	public void setVBox(){
+	public void setVBox() {
 		personType.setPromptText("Type");
 		personType.getItems().addAll("ADMIN", "GUARDIAN", "STUDENT", "TEACHER");
 		personType.setOnAction(e -> setVBoxByPersonType());
 		String[] promptTitles = {"Name", "SSN", "E-mail", "Password", "Phone"};
 
-		for(int i = 0; i < inputs.length; i++){
-			if(i == 3){
+		for (int i = 0; i < inputs.length; i++) {
+			if (i == 3) {
 				inputs[i] = new PasswordField();
-			}else {
+			} else {
 				inputs[i] = new TextField();
 			}
 			inputs[i].setPromptText(promptTitles[i]);
@@ -105,48 +117,20 @@ public class AdminScene extends Scene {
 		vBox.getStyleClass().add("v-box");
 	}
 
-	public void setTeacherSearch(){
-		teacherSearchResult.getStyleClass().add("context-menu");
-		vBox.getChildren().add(teacherSearch);
-		List<MenuItem> items = new LinkedList<>();
-		List<Person> teachers = table.getItems().stream().filter(p -> p.getType().equals("TEACHER")).collect(Collectors.toList());
-
-		teachers.forEach(t -> {
-			MenuItem newItem = new MenuItem(t.getName());
-			newItem.setOnAction(e -> {
-				teacherSearch.setText(newItem.getText());
-			});
-			items.add(newItem);
-		});
-
-		teacherSearch.setContextMenu(teacherSearchResult);
-
-		teacherSearch.textProperty().addListener(observable -> {
-			teacherSearchResult.getItems().clear();
-			teacherSearchResult.getItems().addAll(items);
-			teacherSearchResult.getItems().removeAll(
-					teacherSearchResult
-							.getItems()
-							.stream()
-							.filter(i -> !i.getText().toLowerCase().contains(teacherSearch.getText().toLowerCase()))
-							.collect(Collectors.toList()));
-
-			if (!teacherSearchResult.isShowing() && !teacherSearch.getText().equals("")) {
-				teacherSearchResult.show(teacherSearch, Side.BOTTOM, 0, 1);
-			}else if(teacherSearch.getText().equals("")){
-				teacherSearchResult.hide();
-			}
-		});
-	}
-
-	public void addPerson(){
+	public void addPerson() {
 		Person person;
-		if(personType.getValue().equals("STUDENT")){
-			person = new Person(
+		if (personType.getValue().equals("STUDENT")) {
+			long teacherId = getPersonIdByName(teacherSearch.getText());
+			List<String> guardians = new ArrayList<>(Arrays.asList(guardiansAdded.getText().split("\n")));
+			Set<Long> guardianIds = guardians.stream().map(this::getPersonIdByName).collect(Collectors.toSet());
+
+			person = new Student(
 					inputs[0].getText(),
 					inputs[1].getText(),
-					"STUDENT");
-		}else {
+					"STUDENT",
+					teacherId,
+					guardianIds);
+		} else {
 			person = new Employee(
 					inputs[0].getText(),
 					inputs[1].getText(),
@@ -154,29 +138,63 @@ public class AdminScene extends Scene {
 					inputs[2].getText(),
 					inputs[4].getText());
 
-			((Employee)person).setPassword(inputs[4].getText());
+			((Employee) person).setPassword(inputs[4].getText());
 		}
 
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/" + personType.getValue().toLowerCase() + "/add");
 		String response = httpRequest.postPerson(person);
 
-		if(!response.equalsIgnoreCase("failed")){
-			table.getItems().add(person);
-			for(TextField input : inputs){
-				input.setText("");
+		if (!response.equalsIgnoreCase("failed")) {
+			try {
+				table.getItems().add(person);
+			}catch(IllegalStateException e){
+
 			}
+			clearTextFields();
 		}
 	}
 
-	public void setOnActionAddButton(){
+	private void clearTextFields(){
+		for (TextField input : inputs) {
+			input.clear();
+		}
+		guardiansAdded.clear();
+		teacherSearch.clear();
+		guardianSearch.clear();
+	}
+
+	public void setTeacherSearchActionListener() {
+		teacherSearch.getMenuItems().forEach(item -> item.setOnAction(e -> teacherSearch.setText(item.getText())));
+	}
+
+	public void setGuardianSearchActionListener() {
+		guardianSearch.getMenuItems()
+				.forEach(
+						item -> item.setOnAction(
+								e -> {
+									guardiansAdded.setText(guardiansAdded.getText() + item.getText() + "\n");
+									guardianSearch.clear();
+								}));
+	}
+
+	public long getPersonIdByName(String name) {
+		return table.getItems()
+				.stream()
+				.filter(i -> i.getName().equals(name))
+				.collect(Collectors.toList())
+				.get(0)
+				.getId();
+	}
+
+	public void setOnActionAddButton() {
 		add.setOnAction(e -> addPerson());
 	}
 
-	public void setStackPane(){
+	public void setStackPane() {
 		pane.getStyleClass().add("stack-pane");
 	}
 
-	public StackPane getStackPane(){
+	public StackPane getStackPane() {
 		return pane;
 	}
 

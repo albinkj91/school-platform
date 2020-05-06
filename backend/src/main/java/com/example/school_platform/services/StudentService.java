@@ -48,16 +48,17 @@ public class StudentService {
 	}
 
 	public long save(StudentPostDTO studentPostDTO) throws SQLException, PersistException {
+		System.out.println(studentPostDTO);
 		long personId = personRepository.persist(studentPostDTO);
+		long studentId = studentRepository.persist(personId, studentPostDTO.getTeacherId());
 
-		// TODO - For future implementation
-		/*studentPostDTO.getGuardianIds().forEach(id -> {
+		studentPostDTO.getGuardianIds().forEach(id -> {
 			try {
-				studentRepository.persist(studentId, id);
+				studentRepository.persistGuardianRelation(studentId, id);
 			} catch (SQLException | PersistException e) {
 				e.printStackTrace();
 			}
-		});*/
-		return studentRepository.persist(personId);
+		});
+		return studentId;
 	}
 }
