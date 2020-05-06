@@ -21,7 +21,7 @@ public class StudentService {
 
 	@Autowired
 	public StudentService(StudentRepository studentRepository, SubjectRepository subjectRepository,
-						  GuardianRepository guardianRepository, PersonService personService, PersonRepository personRepository){
+						  GuardianRepository guardianRepository, PersonRepository personRepository){
 		this.studentRepository = studentRepository;
 		this.subjectRepository = subjectRepository;
 		this.guardianRepository = guardianRepository;

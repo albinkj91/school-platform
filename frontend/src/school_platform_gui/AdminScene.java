@@ -118,7 +118,25 @@ public class AdminScene extends Scene {
 	}
 
 	public void addPerson() {
+		// TODO - Refactor!!
+		Person person = personToPost();
+
+		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/" + personType.getValue().toLowerCase() + "/add");
+		String response = httpRequest.postPerson(person);
+
+		if (!response.equalsIgnoreCase("failed")) {
+			try {
+				table.getItems().add(person);
+			}catch(IllegalStateException e){
+
+			}
+			clearTextFields();
+		}
+	}
+
+	private Person personToPost(){
 		Person person;
+
 		if (personType.getValue().equals("STUDENT")) {
 			long teacherId = getPersonIdByName(teacherSearch.getText());
 			List<String> guardians = new ArrayList<>(Arrays.asList(guardiansAdded.getText().split("\n")));
@@ -140,18 +158,7 @@ public class AdminScene extends Scene {
 
 			((Employee) person).setPassword(inputs[4].getText());
 		}
-
-		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/" + personType.getValue().toLowerCase() + "/add");
-		String response = httpRequest.postPerson(person);
-
-		if (!response.equalsIgnoreCase("failed")) {
-			try {
-				table.getItems().add(person);
-			}catch(IllegalStateException e){
-
-			}
-			clearTextFields();
-		}
+		return person;
 	}
 
 	private void clearTextFields(){

@@ -73,6 +73,7 @@
 .table-view{
 	-fx-border-color: #505050;
 	-fx-background-color: #303030;
+	-fx-max-height: 900;
 }
 
 .table-view .filler{
