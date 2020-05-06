@@ -48,7 +48,6 @@ public class StudentService {
 	}
 
 	public long save(StudentPostDTO studentPostDTO) throws SQLException, PersistException {
-		System.out.println(studentPostDTO);
 		long personId = personRepository.persist(studentPostDTO);
 		long studentId = studentRepository.persist(personId, studentPostDTO.getTeacherId());
 
