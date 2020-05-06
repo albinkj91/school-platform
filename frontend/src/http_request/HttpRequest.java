@@ -1,6 +1,7 @@
 package http_request;
 
 import models.Employee;
+import models.Person;
 import utilities.JsonConverter;
 
 import java.io.*;
@@ -50,12 +51,12 @@ public class HttpRequest {
 		}
 	}
 
-	public String postPerson(Employee employee, String password){
+	public String postPerson(Person person){
 		try {
 			URL url = new URL(urlInput);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-			String personAsJson = JsonConverter.personToJson(employee, password);
+			String personAsJson = JsonConverter.personToJson(person);
 			byte[] stream = personAsJson.getBytes(StandardCharsets.UTF_8);
 
 			connection.setDoOutput(true);

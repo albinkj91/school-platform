@@ -27,6 +27,14 @@
 	-fx-text-fill: black;
 }
 
+.context-menu{
+	-fx-min-width: 185;
+}
+
+.menu-item:focused{
+	-fx-background-color: crimson;
+}
+
 .button{
 	-fx-min-width: 120;
 	-fx-min-height: 30;
