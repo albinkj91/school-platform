@@ -1,4 +1,4 @@
-package school_platform_gui;
+package school_platform_pages;
 
 import http_request.HttpRequest;
 import javafx.collections.FXCollections;
@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 public class AdminScene extends Scene {
 
 	private final StackPane pane = new StackPane();
-	private final DefaultMenuBar defaultMenuBar;
+	private final DefaultMenuBar defaultMenuBar = new DefaultMenuBar();;
 	private final TableView<Person> table = new TableView<>();
 
 	private final VBox vBox = new VBox(10);
 	private final ComboBox<String> personType = new ComboBox<>();
 	private final TextField[] inputs = new TextField[5];
-	private final SearchField teacherSearch;
-	private final SearchField guardianSearch;
+	private final SearchField teacherSearch = new SearchField(vBox);
+	private final SearchField guardianSearch = new SearchField(vBox);
 	private final TextArea guardiansAdded = new TextArea();
 	private final Button add = new Button("Add");
 
@@ -43,14 +43,18 @@ public class AdminScene extends Scene {
 		super(root);
 		this.stage = stage;
 		getStylesheets().add("stylesheets/admin-scene.css");
-		defaultMenuBar = new DefaultMenuBar();
-		teacherSearch = new SearchField(vBox);
 		teacherSearch.setPromptText("Teacher");
-		guardianSearch = new SearchField(vBox);
 		guardianSearch.setPromptText("Guardians");
 		guardiansAdded.setEditable(false);
 	}
 
+
+	public void initialize() {
+		setDefaultMenuBar();
+		setStackPane();
+		setVBox();
+		setOnActionAddButton();
+	}
 
 	public void setDefaultMenuBar(){
 		defaultMenuBar.setMenu(stage);

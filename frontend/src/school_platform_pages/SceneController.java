@@ -1,18 +1,18 @@
-package school_platform_gui;
+package school_platform_pages;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.Employee;
+import school_platform_pages.teacher.TeacherScene;
 
 public class SceneController {
 
 	private final Stage stage;
-	private final BorderPane borderPane;
+	private final BorderPane borderPane = new BorderPane();
 
 	public SceneController(Stage stage){
 		this.stage = stage;
-		borderPane = new BorderPane();
 		borderPane.setPrefSize(stage.getWidth(), stage.getHeight());
 	}
 
@@ -35,10 +35,8 @@ public class SceneController {
 	public void setAdminScene(){
 		stage.setTitle("School Platform - Admin");
 		AdminScene adminScene = new AdminScene(borderPane, stage);
-		adminScene.setDefaultMenuBar();
-		adminScene.setStackPane();
-		adminScene.setVBox();
-		adminScene.setOnActionAddButton();
+
+		adminScene.initialize();
 
 		borderPane.setTop(adminScene.getDefaultMenuBar());
 		borderPane.setCenter(adminScene.getStackPane());
@@ -52,23 +50,18 @@ public class SceneController {
 		stage.setTitle("School Platform - Teacher");
 		TeacherScene teacherScene = new TeacherScene(borderPane, stage, employee);
 
-		teacherScene.setDefaultMenuBar();
-		teacherScene.setGridPane();
-		teacherScene.fetchStudents();
-		teacherScene.setCheckBoxes();
+		teacherScene.initialize();
 
 		borderPane.setTop(teacherScene.getDefaultMenuBar());
-		borderPane.setCenter(teacherScene.getGridPane());
+		borderPane.setCenter(teacherScene.getTabPane());
 		changeScene(stage, teacherScene);
 	}
 
 	public void setLoginScene(){
 		LoginScene loginScene = new LoginScene(borderPane, stage);
-		loginScene.setUsernameField();
-		loginScene.setPasswordField();
-		loginScene.setLoginButton();
-		loginScene.setVBox();
-		loginScene.setOnActionLoginButton();
+
+		loginScene.initialize();
+
 		borderPane.setCenter(loginScene.getVBox());
 		changeScene(stage, loginScene);
 	}

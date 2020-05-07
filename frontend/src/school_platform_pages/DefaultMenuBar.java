@@ -1,4 +1,4 @@
-package school_platform_gui;
+package school_platform_pages;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -10,11 +10,10 @@ import java.util.List;
 
 public class DefaultMenuBar extends MenuBar {
 
-	private List<MenuItem> items;
+	private List<MenuItem> items  = new LinkedList<>();;
 	private Menu menu;
 
 	public DefaultMenuBar(){
-		items = new LinkedList<>();
 		getStylesheets().add("stylesheets/menu-bar.css");
 	}
 

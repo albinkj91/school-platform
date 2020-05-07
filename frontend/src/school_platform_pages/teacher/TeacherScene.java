@@ -1,14 +1,13 @@
-package school_platform_gui;
+package school_platform_pages.teacher;
 
 import http_request.HttpRequest;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import models.Employee;
 import models.Student;
+import school_platform_pages.DefaultMenuBar;
 import utilities.JsonConverter;
 
 import java.util.ArrayList;
@@ -18,47 +17,42 @@ import java.util.List;
 public class TeacherScene extends Scene {
 
 	private final Stage stage;
-
-	private final DefaultMenuBar defaultMenuBar;
-	private final GridPane gridPane = new GridPane();
-	private final List<CheckBox> checkBoxes = new ArrayList<>();
+	private final TabPane tabPane = new TabPane();
+	private final DefaultMenuBar defaultMenuBar = new DefaultMenuBar();
 	private List<Student> students = new ArrayList<>();
 
-	private Employee teacher;
+	private final AttendanceTab attendanceTab = new AttendanceTab(students);
+	private final StudentTab studentTab = new StudentTab(); // TODO
+	private final EmailTab emailTab = new EmailTab(); // TODO
+
+	private final Employee teacher;
 
 	public TeacherScene(Parent root, Stage stage, Employee teacher) {
 		super(root);
 		this.stage = stage;
 		this.teacher = teacher;
-		defaultMenuBar = new DefaultMenuBar();
 		getStylesheets().add("stylesheets/teacher-scene.css");
 	}
 
 
-	public void setGridPane(){
-		gridPane.setHgap(20);
-		gridPane.setVgap(20);
-		gridPane.setPadding(new Insets(40));
-		gridPane.getStyleClass().add("grid-pane");
+	public void initialize(){
+		setDefaultMenuBar();
+		fetchStudents();
+		attendanceTab.initialize();
+		setTabPane();
 	}
 
-	public void setDefaultMenuBar(){
+	private void setTabPane(){
+		tabPane.getTabs().add(attendanceTab);
+	}
+
+	private void setDefaultMenuBar(){
 		defaultMenuBar.setMenu(stage);
 	}
 
-	public void setCheckBoxes(){
-		int checkBoxIndex = 0;
-		for (int i = 0; i < students.size(); i++) {
-			checkBoxes.add(new CheckBox(students.get(i).getName()));
-			if(i % 2 == 0){
-				gridPane.add(checkBoxes.get(i), 0, checkBoxIndex);
-			}else {
-				gridPane.add(checkBoxes.get(i), 1, checkBoxIndex++);
-			}
-		}
-	}
 
-	public void fetchStudents(){
+
+	private void fetchStudents(){
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/student/by-teacher/" + teacher.getId());
 		String studentsAsJson = httpRequest.getStudentsByTeacher();
 
@@ -66,8 +60,8 @@ public class TeacherScene extends Scene {
 		students.addAll(Arrays.asList(studentsAsArray));
 	}
 
-	public GridPane getGridPane(){
-		return gridPane;
+	public TabPane getTabPane(){
+		return tabPane;
 	}
 
 	public DefaultMenuBar getDefaultMenuBar() {

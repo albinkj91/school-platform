@@ -1,4 +1,4 @@
-package school_platform_gui;
+package school_platform_pages;
 
 import http_request.HttpRequest;
 import javafx.scene.Parent;
@@ -30,7 +30,15 @@ public class LoginScene extends Scene {
 	}
 
 
-	public void setVBox(){
+	public void initialize(){
+		setVBox();
+		setUsernameField();
+		setPasswordField();
+		setLoginButton();
+		setOnActionLoginButton();
+	}
+
+	private void setVBox(){
 		vBox.getChildren().addAll(
 				usernameLabel,
 				usernameField,
@@ -40,33 +48,33 @@ public class LoginScene extends Scene {
 		vBox.getStyleClass().add("v-box");
 	}
 
-	public VBox getVBox(){
-		return vBox;
-	}
-
-	public void setUsernameField(){
+	private void setUsernameField(){
 		usernameLabel.getStyleClass().add("username-label");
 		usernameField.getStyleClass().add("username-field");
 	}
 
-	public void setPasswordField(){
+	private void setPasswordField(){
 		passwordLabel.getStyleClass().add("password-label");
 		passwordField.getStyleClass().add("password-field");
 	}
 
-	public void setLoginButton(){
+	private void setLoginButton(){
 		loginButton.getStyleClass().add("login-button");
 	}
 
-	public void setOnActionLoginButton(){
+	private void setOnActionLoginButton(){
 		loginButton.setOnAction(e -> authenticateAndRedirect());
 	}
 
-	public void authenticateAndRedirect(){
+	private void authenticateAndRedirect(){
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/employee/authenticate");
 		String response = httpRequest.authenticateLogin(usernameField.getText(), passwordField.getText());
 		Employee employee = JsonConverter.convertEmployee(response);
 		SceneController sceneController = new SceneController(stage);
 		sceneController.authentication(employee);
+	}
+
+	public VBox getVBox(){
+		return vBox;
 	}
 }

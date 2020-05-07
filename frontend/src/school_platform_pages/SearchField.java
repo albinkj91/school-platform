@@ -1,4 +1,4 @@
-package school_platform_gui;
+package school_platform_pages;
 
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
@@ -14,18 +14,18 @@ import java.util.stream.Collectors;
 public class SearchField extends TextField {
 
 	private final VBox root;
-	private final ContextMenu contextMenu;
-	private final List<MenuItem> menuItems;
+	private final ContextMenu contextMenu = new ContextMenu();
+	private final List<MenuItem> menuItems = new LinkedList<>();
 
 	public SearchField(VBox root){
 		this.root = root;
-		contextMenu = new ContextMenu();
-		menuItems = new LinkedList<>();
 	}
 
 	public void setSearch(List<Person> personList, String filterType){
 		root.getChildren().add(this);
-		personList = personList.stream().filter(p -> p.getType().equals(filterType)).collect(Collectors.toList());
+		personList = personList.stream()
+				.filter(p -> p.getType().equals(filterType))
+				.collect(Collectors.toList());
 
 		personList.forEach(p -> {
 			MenuItem item = new MenuItem(p.getName());
@@ -38,8 +38,7 @@ public class SearchField extends TextField {
 			contextMenu.getItems().clear();
 			contextMenu.getItems().addAll(menuItems);
 			contextMenu.getItems().removeAll(
-					contextMenu
-							.getItems()
+					contextMenu.getItems()
 							.stream()
 							.filter(i -> !i.getText().toLowerCase().contains(getText().toLowerCase()))
 							.collect(Collectors.toList()));
