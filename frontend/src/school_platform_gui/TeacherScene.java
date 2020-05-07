@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import models.Employee;
 import models.Student;
 import utilities.JsonConverter;
@@ -16,15 +17,20 @@ import java.util.List;
 
 public class TeacherScene extends Scene {
 
+	private final Stage stage;
+
+	private final DefaultMenuBar defaultMenuBar;
 	private final GridPane gridPane = new GridPane();
 	private final List<CheckBox> checkBoxes = new ArrayList<>();
 	private List<Student> students = new ArrayList<>();
 
 	private Employee teacher;
 
-	public TeacherScene(Parent root, Employee teacher) {
+	public TeacherScene(Parent root, Stage stage, Employee teacher) {
 		super(root);
+		this.stage = stage;
 		this.teacher = teacher;
+		defaultMenuBar = new DefaultMenuBar();
 		getStylesheets().add("stylesheets/teacher-scene.css");
 	}
 
@@ -34,6 +40,10 @@ public class TeacherScene extends Scene {
 		gridPane.setVgap(20);
 		gridPane.setPadding(new Insets(40));
 		gridPane.getStyleClass().add("grid-pane");
+	}
+
+	public void setDefaultMenuBar(){
+		defaultMenuBar.setMenu(stage);
 	}
 
 	public void setCheckBoxes(){
@@ -58,5 +68,9 @@ public class TeacherScene extends Scene {
 
 	public GridPane getGridPane(){
 		return gridPane;
+	}
+
+	public DefaultMenuBar getDefaultMenuBar() {
+		return defaultMenuBar;
 	}
 }

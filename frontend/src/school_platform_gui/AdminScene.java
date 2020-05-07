@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.Employee;
 import models.Person;
 import models.Student;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class AdminScene extends Scene {
 
 	private final StackPane pane = new StackPane();
+	private final DefaultMenuBar defaultMenuBar;
 	private final TableView<Person> table = new TableView<>();
 
 	private final VBox vBox = new VBox(10);
@@ -33,16 +35,25 @@ public class AdminScene extends Scene {
 	private final TextArea guardiansAdded = new TextArea();
 	private final Button add = new Button("Add");
 
+	final Stage stage;
+
 	private String currentPerson = "";
 
-	public AdminScene(Parent root) {
+	public AdminScene(Parent root, Stage stage) {
 		super(root);
+		this.stage = stage;
 		getStylesheets().add("stylesheets/admin-scene.css");
+		defaultMenuBar = new DefaultMenuBar();
 		teacherSearch = new SearchField(vBox);
 		teacherSearch.setPromptText("Teacher");
 		guardianSearch = new SearchField(vBox);
 		guardianSearch.setPromptText("Guardians");
 		guardiansAdded.setEditable(false);
+	}
+
+
+	public void setDefaultMenuBar(){
+		defaultMenuBar.setMenu(stage);
 	}
 
 	public void setTable() {
@@ -118,23 +129,18 @@ public class AdminScene extends Scene {
 	}
 
 	public void addPerson() {
-		// TODO - Refactor!!
-		Person person = personToPost();
+		Person person = setPersonToPost();
 
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/" + personType.getValue().toLowerCase() + "/add");
 		String response = httpRequest.postPerson(person);
 
 		if (!response.equalsIgnoreCase("failed")) {
-			try {
-				table.getItems().add(person);
-			}catch(IllegalStateException e){
-
-			}
+			table.getItems().add(person);
 			clearTextFields();
 		}
 	}
 
-	private Person personToPost(){
+	private Person setPersonToPost(){
 		Person person;
 
 		if (personType.getValue().equals("STUDENT")) {
@@ -195,6 +201,10 @@ public class AdminScene extends Scene {
 
 	public void setOnActionAddButton() {
 		add.setOnAction(e -> addPerson());
+	}
+
+	public DefaultMenuBar getDefaultMenuBar() {
+		return defaultMenuBar;
 	}
 
 	public void setStackPane() {
