@@ -4,5 +4,17 @@ import javafx.scene.control.Tab;
 
 public class EmailTab extends Tab {
 
-	// TODO
+
+
+	public EmailTab(){
+		setText("E-mail");
+	}
+
+	public void initialize(){
+		setEmailTab();
+	}
+
+	private void setEmailTab(){
+		setClosable(false);
+	}
 }

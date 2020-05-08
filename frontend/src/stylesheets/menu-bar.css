@@ -18,6 +18,10 @@
 	-fx-text-fill: black;
 }
 
+.menu-item:focused{
+	-fx-background-color: crimson;
+}
+
 .menu-item:focused .label{
 	-fx-text-fill: white;
 }

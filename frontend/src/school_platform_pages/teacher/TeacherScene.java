@@ -19,10 +19,10 @@ public class TeacherScene extends Scene {
 	private final Stage stage;
 	private final TabPane tabPane = new TabPane();
 	private final DefaultMenuBar defaultMenuBar = new DefaultMenuBar();
-	private List<Student> students = new ArrayList<>();
+	private List<Student> students = new ArrayList<>(30);
 
 	private final AttendanceTab attendanceTab = new AttendanceTab(students);
-	private final StudentTab studentTab = new StudentTab(); // TODO
+	private final StudentTab studentTab = new StudentTab(students); // TODO
 	private final EmailTab emailTab = new EmailTab(); // TODO
 
 	private final Employee teacher;
@@ -39,11 +39,13 @@ public class TeacherScene extends Scene {
 		setDefaultMenuBar();
 		fetchStudents();
 		attendanceTab.initialize();
+		studentTab.initialize();
+		emailTab.initialize();
 		setTabPane();
 	}
 
 	private void setTabPane(){
-		tabPane.getTabs().add(attendanceTab);
+		tabPane.getTabs().addAll(attendanceTab, studentTab, emailTab);
 	}
 
 	private void setDefaultMenuBar(){

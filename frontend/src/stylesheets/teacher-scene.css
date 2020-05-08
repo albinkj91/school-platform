@@ -5,11 +5,93 @@
 .grid-pane{
 	-fx-background-color: #105080;
 	-fx-max-width: 400;
-	-fx-max-height: 900;
+	-fx-max-height: 800;
 	-fx-alignment: center;
 	-fx-background-radius: 10;
 }
 
 .check-box{
 	-fx-text-fill: #cccccc;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-opacity: 0;
+}
+
+.tab-pane
+{
+	-fx-tab-min-width:120px;
+	-fx-background-color: #303030;
+}
+
+.tab{
+	-fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+	-fx-background-color: #cccccc;
+}
+
+.tab-pane .tab:selected
+{
+	-fx-background-color: #505050;
+	-fx-focus-color: transparent;
+}
+
+.tab .tab-label {
+	-fx-alignment: CENTER;
+	-fx-text-fill: #303030;
+	-fx-font-size: 12px;
+	-fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+	-fx-alignment: CENTER;
+	-fx-text-fill: #cccccc;
+}
+
+.tab-header-area > .headers-region {
+	-fx-border-width: 1;
+	-fx-border-color: #303030 #303030 #cccccc #303030;
+}
+
+.table-view{
+	-fx-border-color: #505050;
+	-fx-background-color: #303030;
+	-fx-max-height: 900;
+	-fx-border-insets: 5;
+}
+
+.table-view .column-header,
+.table-view .column-header-background .filler {
+	-fx-background-color:  #404040;
+	-fx-border-color: #404040;
+}
+
+.table-view .arrow{
+	-fx-mark-color: white;
+}
+
+.table-view .column-header .label{
+	-fx-text-fill: white;
+	-fx-font-size: 16;
+	-fx-font-weight: bold;
+	-fx-alignment: CENTER_LEFT;
+}
+.table-view .cell{
+	-fx-cell-size: 35;
+	-fx-background-color: #303030;
+	-fx-border-color: #303030;
+	-fx-text-fill: lightgray;
+	-fx-font-size: 14;
+	-fx-alignment: CENTER_LEFT;
+}
+
+.table-row-cell:selected .table-cell {
+	-fx-cell-size: 35;
+	-fx-background-color: #105080;
+	-fx-text-background-color: white;
+	-fx-border-color: #105080;
+	-fx-text-fill: white;
+	-fx-alignment: CENTER_LEFT;
 }

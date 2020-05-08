@@ -16,7 +16,7 @@ public class AttendanceTab extends Tab {
 	private final GridPane gridPane = new GridPane();
 	private final List<CheckBox> checkBoxes = new ArrayList<>();
 
-	private List<Student> students;
+	private final List<Student> students;
 
 	public AttendanceTab(List<Student> students){
 		this.students = students;
@@ -31,6 +31,7 @@ public class AttendanceTab extends Tab {
 	}
 
 	private void setAttendanceTab(){
+		setClosable(false);
 		borderPane.setCenter(gridPane);
 		setContent(borderPane);
 	}

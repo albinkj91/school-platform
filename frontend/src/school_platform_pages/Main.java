@@ -13,9 +13,9 @@ public class Main extends Application {
 
 		SceneController sceneController = new SceneController(primaryStage);
 
-		sceneController.setLoginScene();
+		//sceneController.setLoginScene();
 		//sceneController.setAdminScene();
-		//sceneController.setTeacherScene(new Employee(1, "", "", "", "", "", ""));
+		sceneController.setTeacherScene(new Employee(1, "", "", "", "", "", ""));
 
 		primaryStage.show();
 	}
