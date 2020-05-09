@@ -119,8 +119,40 @@
 
 .h-box .label{
 	-fx-padding: 0 0 0 10;
+	-fx-font-size: 16;
 }
 
 .h-box .button{
 	-fx-text-fill: white;
+	-fx-font-size: 16;
+}
+
+.h-box .button:hover{
+	-fx-text-fill: black;
+	-fx-font-size: 16;
+}
+
+.email-layout{
+	-fx-min-width: 400;
+	-fx-max-width: 800;
+	-fx-pref-width: 800;
+	-fx-padding: 50 0 0 0;
+}
+
+.email-layout .text-field{
+	-fx-min-height: 40;
+	-fx-font-size: 18;
+	-fx-prompt-text-fill: #707070;
+	-fx-background-color: #dddddd;
+}
+
+.email-layout .text-area{
+	-fx-min-height: 300;
+	-fx-pref-height: 600;
+	-fx-max-height: 800;
+	-fx-font-size: 16;
+}
+
+.email-layout .text-area .content{
+	-fx-background-color: #dddddd;
 }

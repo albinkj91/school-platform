@@ -52,8 +52,6 @@ public class TeacherScene extends Scene {
 		defaultMenuBar.setMenu(stage);
 	}
 
-
-
 	private void fetchStudents(){
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/student/by-teacher/" + teacher.getId());
 		String studentsAsJson = httpRequest.getStudentsByTeacher();

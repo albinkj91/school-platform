@@ -87,6 +87,12 @@ public class StudentTab extends Tab {
 		Label name = new Label(guardian.getName());
 		Label phone = new Label(guardian.getPhone());
 		Button button = new Button(guardian.getEmail());
+
+		button.setOnAction(e -> {
+			getTabPane().getSelectionModel().select(2);
+			((EmailTab)getTabPane().getSelectionModel().getSelectedItem()).setEmailReceiver(button.getText());
+		});
+
 		buttons.add(button);
 
 		vBox.getChildren().addAll(name, phone, button);
