@@ -22,8 +22,8 @@ public class TeacherScene extends Scene {
 	private List<Student> students = new ArrayList<>(30);
 
 	private final AttendanceTab attendanceTab = new AttendanceTab(students);
-	private final StudentTab studentTab = new StudentTab(students); // TODO
-	private final EmailTab emailTab = new EmailTab(); // TODO
+	private final StudentTab studentTab = new StudentTab(students);
+	private final EmailTab emailTab = new EmailTab();
 
 	private final Employee teacher;
 
@@ -59,6 +59,7 @@ public class TeacherScene extends Scene {
 		String studentsAsJson = httpRequest.getStudentsByTeacher();
 
 		Student[] studentsAsArray = JsonConverter.convertStudents(studentsAsJson);
+		students.clear();
 		students.addAll(Arrays.asList(studentsAsArray));
 	}
 

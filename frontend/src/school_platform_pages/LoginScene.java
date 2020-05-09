@@ -16,9 +16,9 @@ public class LoginScene extends Scene {
 
 	private final TextField usernameField = new TextField();
 	private final PasswordField passwordField = new PasswordField();
-	private final Label usernameLabel = new Label("Username");
-	private final Label passwordLabel = new Label("Password");
-	private final Button loginButton = new Button("Login");
+	private final Label usernameLabel = new Label("E-post");
+	private final Label passwordLabel = new Label("Lösenord");
+	private final Button loginButton = new Button("Logga In");
 	private final VBox vBox = new VBox(10);
 
 	private final Stage stage;

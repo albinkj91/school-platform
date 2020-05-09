@@ -2,6 +2,19 @@
 	-fx-background-color: #303030;
 }
 
+.button{
+	-fx-min-width: 120;
+	-fx-min-height: 30;
+	-fx-background-color: #105080;
+	-fx-text-fill: #cccccc;
+	-fx-font-size: 14;
+}
+
+.button:hover{
+	-fx-background-color: #30aadd;
+	-fx-text-fill: #202020;
+}
+
 .grid-pane{
 	-fx-background-color: #105080;
 	-fx-max-width: 400;
@@ -94,4 +107,20 @@
 	-fx-border-color: #105080;
 	-fx-text-fill: white;
 	-fx-alignment: CENTER_LEFT;
+}
+
+.student-profile{
+	-fx-padding: 40;
+}
+
+.student-profile .label{
+	-fx-text-fill: #cccccc;
+}
+
+.h-box .label{
+	-fx-padding: 0 0 0 10;
+}
+
+.h-box .button{
+	-fx-text-fill: white;
 }

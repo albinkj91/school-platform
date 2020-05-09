@@ -3,6 +3,7 @@ package com.example.school_platform.controllers;
 import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Student;
+import com.example.school_platform.models.dto.StudentGetDTO;
 import com.example.school_platform.models.dto.StudentPostDTO;
 import com.example.school_platform.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class StudentController {
 	}
 
 	@GetMapping("/by-teacher/{id}")
-	public Set<Student> getStudentsByTeacherId(@PathVariable("id") long teacherId){
+	public Set<StudentGetDTO> getStudentsByTeacherId(@PathVariable("id") long teacherId){
 		try {
 			return studentService.getByTeacherId(teacherId);
 		} catch (NotFoundException e) {

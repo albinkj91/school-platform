@@ -47,8 +47,8 @@ public class StudentRepository {
 		return students;
 	}
 
-	public Set<Student> getByTeacherId(long teacherId) throws NotFoundException {
-		Set<Student> students = new HashSet<>();
+	public Set<StudentGetDTO> getByTeacherId(long teacherId) throws NotFoundException {
+		Set<StudentGetDTO> students = new HashSet<>();
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet set = statement.executeQuery("SELECT * FROM students s " +
@@ -57,10 +57,11 @@ public class StudentRepository {
 
 			while(set.next()){
 				students.add(
-						new Student(
+						new StudentGetDTO(
 								set.getLong("id"),
 								set.getString("name"),
-								set.getString("ssn")));
+								set.getString("ssn"),
+								set.getLong("teacher_id")));
 			}
 			return students;
 		} catch (SQLException e) {

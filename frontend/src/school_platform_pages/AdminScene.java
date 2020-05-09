@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Employee;
 import models.Person;
-import models.Student;
+import models.StudentPost;
 import utilities.JsonConverter;
 
 import java.util.ArrayList;
@@ -65,11 +65,11 @@ public class AdminScene extends Scene {
 		table.setItems(fetchPersons());
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		TableColumn<Person, String> name = new TableColumn<>("Name");
-		TableColumn<Person, String> ssn = new TableColumn<>("SSN");
-		TableColumn<Person, String> type = new TableColumn<>("Type");
-		TableColumn<Person, String> email = new TableColumn<>("E-mail");
-		TableColumn<Person, String> phone = new TableColumn<>("Phone");
+		TableColumn<Person, String> name = new TableColumn<>("Namn");
+		TableColumn<Person, String> ssn = new TableColumn<>("Personnr");
+		TableColumn<Person, String> type = new TableColumn<>("Typ");
+		TableColumn<Person, String> email = new TableColumn<>("E-post");
+		TableColumn<Person, String> phone = new TableColumn<>("Telefon");
 
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		ssn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
@@ -152,7 +152,7 @@ public class AdminScene extends Scene {
 			List<String> guardians = new ArrayList<>(Arrays.asList(guardiansAdded.getText().split("\n")));
 			Set<Long> guardianIds = guardians.stream().map(this::getPersonIdByName).collect(Collectors.toSet());
 
-			person = new Student(
+			person = new StudentPost(
 					inputs[0].getText(),
 					inputs[1].getText(),
 					"STUDENT",

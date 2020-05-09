@@ -23,6 +23,7 @@ public class SearchField extends TextField {
 
 	public void setSearch(List<Person> personList, String filterType){
 		root.getChildren().add(this);
+		menuItems.clear();
 		personList = personList.stream()
 				.filter(p -> p.getType().equals(filterType))
 				.collect(Collectors.toList());

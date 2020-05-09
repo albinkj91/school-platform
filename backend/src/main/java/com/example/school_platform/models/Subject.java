@@ -14,7 +14,6 @@ public class Subject {
 		this.grade = grade;
 	}
 
-	public Subject(){}
 
 	public long getId() {
 		return id;

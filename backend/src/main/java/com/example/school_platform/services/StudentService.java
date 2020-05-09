@@ -3,6 +3,7 @@ package com.example.school_platform.services;
 import com.example.school_platform.exceptions.NotFoundException;
 import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Student;
+import com.example.school_platform.models.dto.StudentGetDTO;
 import com.example.school_platform.models.dto.StudentPostDTO;
 import com.example.school_platform.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class StudentService {
 		return studentRepository.getAll();
 	}
 
-	public Set<Student> getByTeacherId(long teacherId) throws NotFoundException {
-		Set<Student> students = studentRepository.getByTeacherId(teacherId);
+	public Set<StudentGetDTO> getByTeacherId(long teacherId) throws NotFoundException {
+		Set<StudentGetDTO> students = studentRepository.getByTeacherId(teacherId);
 
 		students.forEach(s -> {
 			try {
