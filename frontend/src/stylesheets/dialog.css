@@ -1,0 +1,29 @@
+.dialog-pane{
+	-fx-background-color: #303030;
+}
+
+.v-box{
+	-fx-background-color: #303030;
+	-fx-padding: 20 20 20 20;
+	-fx-min-width: 300;
+	-fx-min-height: 100;
+	-fx-alignment: center;
+}
+
+.password-field{
+	-fx-max-width: 200;
+	-fx-background-color: #cccccc;
+}
+
+.button{
+	-fx-min-width: 80;
+	-fx-min-height: 30;
+	-fx-background-color: #105080;
+	-fx-text-fill: #cccccc;
+	-fx-font-size: 14;
+}
+
+.button:hover{
+	-fx-background-color: #30aadd;
+	-fx-text-fill: #202020;
+}

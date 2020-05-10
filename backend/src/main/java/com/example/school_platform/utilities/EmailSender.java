@@ -1,6 +1,7 @@
 package com.example.school_platform.utilities;
 
 import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
@@ -8,20 +9,31 @@ import java.util.Properties;
 
 public class EmailSender {
 
-	private Session session;
-	private Message message;
 	private Properties properties;
 
-	private String smtpServer;
-	private String port;
-	private String sender;
+	private final String smtpServer;
+	private final String port;
+	private final String sender;
 	private final InternetAddress[] emailRecipients;
 
-	public EmailSender(String smtpServer, String port, String sender, InternetAddress[] emailRecipients) {
+	public EmailSender(String smtpServer, String port, String sender, String[] emailRecipients) {
 		this.smtpServer = smtpServer;
 		this.port = port;
 		this.sender = sender;
-		this.emailRecipients = emailRecipients;
+		this.emailRecipients = setEmailRecipients(emailRecipients);
+	}
+
+	private InternetAddress[] setEmailRecipients(String[] emailRecipients) {
+		InternetAddress[] emails = new InternetAddress[emailRecipients.length];
+
+		for(int i = 0; i < emailRecipients.length; i++) {
+			try {
+				emails[i] = new InternetAddress(emailRecipients[i]);
+			} catch (AddressException e) {
+				e.printStackTrace();
+			}
+		}
+		return emails;
 	}
 
 	public void setProperties(){
@@ -33,13 +45,13 @@ public class EmailSender {
 	}
 
 	public void composeAndSendMessage(String subject, String messageToSend, String password) throws MessagingException {
-		session = Session.getInstance(properties, new Authenticator() {
+		Session session = Session.getInstance(properties, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(sender, password);
 			}
 		});
-		message = new MimeMessage(session);
+		Message message = new MimeMessage(session);
 
 		message.setFrom(new InternetAddress(sender));
 		message.setRecipients(Message.RecipientType.TO, emailRecipients);
