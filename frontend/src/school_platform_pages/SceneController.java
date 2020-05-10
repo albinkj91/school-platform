@@ -1,6 +1,8 @@
 package school_platform_pages;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.Employee;
@@ -22,13 +24,20 @@ public class SceneController {
 	}
 
 	public void authentication(Employee employee){
-		switch(employee.getType()){
-			case "ADMIN":
-				setAdminScene();
-				break;
-			case "TEACHER":
-				setTeacherScene(employee);
-				break;
+		if(employee == null){
+			Alert alert = new Alert(Alert.AlertType.ERROR, "Ogiltiga inloggningsuppgifter", ButtonType.CLOSE);
+			alert.getDialogPane().getStylesheets().add("stylesheets/alert.css");
+			alert.setTitle("Error");
+			alert.show();
+		}else {
+			switch (employee.getType()) {
+				case "ADMIN":
+					setAdminScene();
+					break;
+				case "TEACHER":
+					setTeacherScene(employee);
+					break;
+			}
 		}
 	}
 

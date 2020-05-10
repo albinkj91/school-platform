@@ -1,0 +1,35 @@
+.dialog-pane{
+	-fx-background-color: #303030;
+}
+
+.button-bar .label{
+	-fx-text-fill: white;
+}
+
+.dialog-pane > .button-bar > .container{
+	-fx-background-color: #303030;
+}
+.dialog-pane > .label.content{
+	-fx-font-size: 14;
+	-fx-text-fill: white;
+}
+.dialog-pane .header-panel{
+	-fx-background-color: #404040;
+}
+.dialog-pane .header-panel .label{
+	-fx-font-size: 18;
+	-fx-text-fill: white;
+}
+
+.button{
+	-fx-min-width: 120;
+	-fx-min-height: 30;
+	-fx-background-color: #105080;
+	-fx-text-fill: aliceblue;
+	-fx-font-size: 14;
+}
+
+.button:hover{
+	-fx-background-color: #30aadd;
+	-fx-text-fill: #202020;
+}

@@ -32,7 +32,7 @@
 	-fx-min-height: 35;
 	-fx-font-family: sans-serif;
 	-fx-font-size: 16;
-	-fx-text-fill: white;
+	-fx-text-fill: aliceblue;
 }
 
 .login-button:hover{
