@@ -2,6 +2,7 @@ package com.example.school_platform.repositories;
 
 import com.example.school_platform.exceptions.PersistException;
 import com.example.school_platform.models.Attendance;
+import com.example.school_platform.models.dto.AttendancePostDTO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -28,20 +29,6 @@ public class AttendanceRepository {
 		}
 	}
 
-	public Set<Attendance> getAll() throws SQLException {
-		Set<Attendance> attendances = new HashSet<>();
-
-		ResultSet set = statement.executeQuery("SELECT * FROM attendances");
-
-		while(set.next()){
-			attendances.add(new Attendance(
-					set.getLong("id"),
-					Timestamp.valueOf(set.getString("attendance_date")),
-					set.getLong("student_id")));
-		}
-		return attendances;
-	}
-
 	public Set<Attendance> getByStudentId(long studentId) throws SQLException {
 		Set<Attendance> attendances = new HashSet<>();
 
@@ -52,16 +39,18 @@ public class AttendanceRepository {
 			attendances.add(new Attendance(
 					set.getLong("id"),
 					Timestamp.valueOf(set.getString("attendance_date")),
+					set.getBoolean("attended"),
 					set.getLong("student-id")));
 		}
 		return attendances;
 	}
 
-	public long persist(long studentId) throws SQLException, PersistException {
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO attendances(student_id)" +
-				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
+	public long persist(AttendancePostDTO attendance) throws SQLException, PersistException {
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO attendances(student_id, attended)" +
+				"value(?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setLong(1, studentId);
+		statement.setLong(1, attendance.getStudentId());
+		statement.setBoolean(2, attendance.hasAttended());
 		statement.executeUpdate();
 		ResultSet key = statement.getGeneratedKeys();
 

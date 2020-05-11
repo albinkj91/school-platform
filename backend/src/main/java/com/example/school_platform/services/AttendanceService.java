@@ -1,6 +1,7 @@
 package com.example.school_platform.services;
 
 import com.example.school_platform.exceptions.PersistException;
+import com.example.school_platform.models.dto.AttendancePostDTO;
 import com.example.school_platform.repositories.AttendanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ public class AttendanceService {
 		this.attendanceRepository = attendanceRepository;
 	}
 
-	public void save(Set<Long> studentIds) {
-		studentIds.forEach(id -> {
+	public void save(Set<AttendancePostDTO> attendances) {
+		attendances.forEach(a -> {
 			try {
-				attendanceRepository.persist(id);
+				attendanceRepository.persist(a);
 			} catch (SQLException | PersistException e) {
 				e.printStackTrace();
 			}

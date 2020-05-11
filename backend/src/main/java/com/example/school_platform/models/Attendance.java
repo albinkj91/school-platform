@@ -6,11 +6,13 @@ public class Attendance {
 
 	private long id;
 	private Timestamp timestamp;
+	private boolean attended;
 	private long studentId;
 
-	public Attendance(long id, Timestamp timestamp, long studentId) {
+	public Attendance(long id, Timestamp timestamp, boolean attended, long studentId) {
 		this.id = id;
 		this.timestamp = timestamp;
+		this.attended = attended;
 		this.studentId = studentId;
 	}
 
@@ -29,6 +31,14 @@ public class Attendance {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public boolean isAttended() {
+		return attended;
+	}
+
+	public void setAttended(boolean attended) {
+		this.attended = attended;
 	}
 
 	public long getStudentId() {
