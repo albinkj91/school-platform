@@ -54,7 +54,7 @@ public class AdminRepository {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO admins(employee_id)" +
 				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setString(1, Long.toString(employeeId));
+		statement.setLong(1, employeeId);
 		statement.executeUpdate();
 		ResultSet key = statement.getGeneratedKeys();
 

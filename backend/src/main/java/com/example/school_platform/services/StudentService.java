@@ -19,14 +19,17 @@ public class StudentService {
 	private final SubjectRepository subjectRepository;
 	private final GuardianRepository guardianRepository;
 	private final PersonRepository personRepository;
+	private final AttendanceRepository attendanceRepository;
 
 	@Autowired
 	public StudentService(StudentRepository studentRepository, SubjectRepository subjectRepository,
-						  GuardianRepository guardianRepository, PersonRepository personRepository){
+						  GuardianRepository guardianRepository, PersonRepository personRepository,
+						  AttendanceRepository attendanceRepository){
 		this.studentRepository = studentRepository;
 		this.subjectRepository = subjectRepository;
 		this.guardianRepository = guardianRepository;
 		this.personRepository = personRepository;
+		this.attendanceRepository = attendanceRepository;
 	}
 
 
@@ -41,6 +44,7 @@ public class StudentService {
 			try {
 				s.setSubjects(subjectRepository.getByStudentId(s.getId()));
 				s.setGuardians(guardianRepository.getByStudentId(s.getId()));
+				s.setAttendances(attendanceRepository.getByStudentId(s.getId()));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

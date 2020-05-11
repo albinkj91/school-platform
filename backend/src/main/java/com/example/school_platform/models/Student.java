@@ -10,12 +10,15 @@ public class Student extends Person{
 	private Teacher teacher;
 	private Set<Subject> subjects;
 	private Set<GuardianGetDTO> guardians;
+	private Set<Attendance> attendances;
 
-	public Student(long id, String name, String ssn, Set<Subject> subjects, Set<GuardianGetDTO> guardians, Teacher teacher) {
+	public Student(long id, String name, String ssn, Set<Subject> subjects,
+				   Set<GuardianGetDTO> guardians, Teacher teacher, Set<Attendance> attendances) {
 		super(id, name, ssn, PersonType.STUDENT);
 		this.teacher = teacher;
 		this.subjects = subjects;
 		this.guardians = guardians;
+		this.attendances = attendances;
 	}
 
 	public Student(long id, String name, String ssn){
@@ -47,6 +50,14 @@ public class Student extends Person{
 
 	public void setGuardians(Set<GuardianGetDTO> guardians) {
 		this.guardians = guardians;
+	}
+
+	public Set<Attendance> getAttendances() {
+		return attendances;
+	}
+
+	public void setAttendances(Set<Attendance> attendances) {
+		this.attendances = attendances;
 	}
 
 	@Override

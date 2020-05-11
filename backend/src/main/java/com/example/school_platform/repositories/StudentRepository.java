@@ -50,7 +50,6 @@ public class StudentRepository {
 	public Set<StudentGetDTO> getByTeacherId(long teacherId) throws NotFoundException {
 		Set<StudentGetDTO> students = new HashSet<>();
 		try {
-			Statement statement = connection.createStatement();
 			ResultSet set = statement.executeQuery("SELECT * FROM students s " +
 					"INNER JOIN persons p ON s.person_id = p.id " +
 					"WHERE teacher_id=" + teacherId);

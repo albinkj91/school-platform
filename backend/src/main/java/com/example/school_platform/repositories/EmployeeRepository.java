@@ -31,7 +31,7 @@ public class EmployeeRepository {
 		statement.setString(1, employeePostDTO.getEmail());
 		statement.setString(2, employeePostDTO.getPassword());
 		statement.setString(3, employeePostDTO.getPhone());
-		statement.setString(4, Long.toString(employeePostDTO.getPersonId()));
+		statement.setLong(4, employeePostDTO.getPersonId());
 		statement.executeUpdate();
 		ResultSet key = statement.getGeneratedKeys();
 

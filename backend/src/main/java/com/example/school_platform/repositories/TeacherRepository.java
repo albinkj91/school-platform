@@ -56,7 +56,7 @@ public class TeacherRepository {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO teachers(employee_id)" +
 				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setString(1, Long.toString(employee_id));
+		statement.setLong(1, employee_id);
 		statement.executeUpdate();
 		ResultSet key = statement.getGeneratedKeys();
 

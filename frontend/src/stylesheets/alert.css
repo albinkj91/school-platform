@@ -1,5 +1,6 @@
 .dialog-pane{
 	-fx-background-color: #303030;
+	-fx-min-width: 500;
 }
 
 .button-bar .label{

@@ -37,6 +37,11 @@ public class SceneController {
 				case "TEACHER":
 					setTeacherScene(employee);
 					break;
+				default:
+					Alert alert = new Alert(Alert.AlertType.INFORMATION, "Vårdnadshavare och studenter har ingen sida än.", ButtonType.CLOSE);
+					alert.getDialogPane().getStylesheets().add("stylesheets/alert.css");
+					alert.setTitle("Information");
+					alert.show();
 			}
 		}
 	}

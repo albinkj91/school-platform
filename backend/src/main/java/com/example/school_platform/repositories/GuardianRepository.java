@@ -53,7 +53,7 @@ public class GuardianRepository {
 
 	public Set<GuardianGetDTO> getByStudentId(long studentId) throws SQLException {
 		Set<GuardianGetDTO> guardians = new HashSet<>();
-		Statement statement = connection.createStatement();
+
 		ResultSet set = statement.executeQuery("SELECT p.name, g.id, e.email, e.phone " +
 				"FROM student_guardian sg " +
 				"INNER JOIN guardians g ON g.id = sg.guardian_id " +
@@ -75,7 +75,7 @@ public class GuardianRepository {
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO guardians(employee_id)" +
 				"value(?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-		statement.setString(1, Long.toString(employee_id));
+		statement.setLong(1, employee_id);
 		statement.executeUpdate();
 		ResultSet key = statement.getGeneratedKeys();
 
