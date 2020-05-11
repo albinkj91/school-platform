@@ -19,7 +19,7 @@ public class TeacherScene extends Scene {
 	private final Stage stage;
 	private final TabPane tabPane = new TabPane();
 	private final DefaultMenuBar defaultMenuBar = new DefaultMenuBar();
-	private List<Student> students = new ArrayList<>(30);
+	private final List<Student> students = new ArrayList<>(30);
 
 	private final AttendanceTab attendanceTab = new AttendanceTab(students);
 	private final StudentTab studentTab = new StudentTab(students);

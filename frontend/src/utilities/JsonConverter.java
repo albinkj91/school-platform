@@ -1,10 +1,9 @@
 package utilities;
 
 import com.google.gson.Gson;
-import models.Email;
-import models.Employee;
-import models.Person;
-import models.Student;
+import models.*;
+
+import java.util.Set;
 
 public class JsonConverter {
 
@@ -28,8 +27,13 @@ public class JsonConverter {
 		return gson.toJson(person);
 	}
 
-	public static String EmailToJson(Email email) {
+	public static String emailToJson(Email email) {
 		Gson gson = new Gson();
 		return gson.toJson(email, Email.class);
+	}
+
+	public static String attendanceSetToJson(Set<Attendance> attendance){
+		Gson gson = new Gson();
+		return gson.toJson(attendance, Set.class);
 	}
 }

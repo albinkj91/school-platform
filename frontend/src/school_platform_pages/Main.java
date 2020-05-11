@@ -10,12 +10,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("School Platform - Login");
 		primaryStage.setMaximized(true);
-
 		SceneController sceneController = new SceneController(primaryStage);
-
 		sceneController.setLoginScene();
-		//sceneController.setAdminScene();
-		//sceneController.setTeacherScene(new Employee(2, "", "", "", "", "", ""));
 		primaryStage.show();
 	}
 }

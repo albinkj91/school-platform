@@ -15,16 +15,33 @@
 	-fx-text-fill: #202020;
 }
 
+.button:pressed{
+	-fx-background-color: aliceblue;
+}
+
 .grid-pane{
-	-fx-background-color: #105080;
-	-fx-max-width: 400;
+	-fx-background-color: #505050;
+	-fx-max-width: 600;
 	-fx-max-height: 800;
 	-fx-alignment: center;
 	-fx-background-radius: 10;
+	-fx-vgap: 30;
+	-fx-hgap: 20;
+	-fx-padding: 40;
 }
 
 .check-box{
+	-fx-font-size: 16;
 	-fx-text-fill: #cccccc;
+}
+
+.check-box .box{
+	-fx-background-color: #30aadd;
+	-fx-padding: 5;
+}
+
+.check-box:selected .mark{
+	-fx-background-color: black;
 }
 
 .tab-pane .tab-header-area .tab-header-background {
