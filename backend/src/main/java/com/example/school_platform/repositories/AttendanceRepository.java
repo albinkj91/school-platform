@@ -40,7 +40,7 @@ public class AttendanceRepository {
 					set.getLong("id"),
 					Timestamp.valueOf(set.getString("attendance_date")),
 					set.getBoolean("attended"),
-					set.getLong("student-id")));
+					set.getLong("student_id")));
 		}
 		return attendances;
 	}

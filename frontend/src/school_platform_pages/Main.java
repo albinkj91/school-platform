@@ -2,7 +2,6 @@ package school_platform_pages;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import models.Employee;
 
 public class Main extends Application {
 
