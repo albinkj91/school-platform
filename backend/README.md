@@ -13,4 +13,6 @@ Linux/OS X:
 
 - Navigate to Backend folder
 
+  $ ./gradlew build
+
   $ ./gradlew bootRun
