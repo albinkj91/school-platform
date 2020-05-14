@@ -1,6 +1,8 @@
-# School Platform - Backend
+# School Platform
 
-Tech stack:
+# Backend
+
+Necessities:
 - Gradle
 - Mysql Community
 
