@@ -12,7 +12,7 @@ public class JsonConverter {
 		return gson.fromJson(json, Employee.class);
 	}
 
-	public static Employee[] convertEmployees(String json){
+	public static Employee[] convertPerson(String json){
 		Gson gson = new Gson();
 		return gson.fromJson(json, Employee[].class);
 	}

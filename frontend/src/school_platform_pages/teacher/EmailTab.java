@@ -52,6 +52,12 @@ public class EmailTab extends Tab {
 			to.clear();
 			subject.clear();
 			message.clear();
+			if(response.equalsIgnoreCase("SUCCESS")) {
+				Alert alert = new Alert(Alert.AlertType.INFORMATION, "E-post Skickat!", ButtonType.CLOSE);
+				alert.getDialogPane().getStylesheets().add("stylesheets/alert.css");
+				alert.setTitle("Success");
+				alert.show();
+			}
 		}else{
 			System.out.println("Password can't have length 0");
 		}
