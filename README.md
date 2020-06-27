@@ -8,7 +8,7 @@ Necessities:
 
 # Launch Instructions:
 
-Linux/OS X:
+Linux:
 - Start MySQL server
 
   $ service mysql start
