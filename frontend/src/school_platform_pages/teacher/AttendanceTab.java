@@ -1,7 +1,9 @@
 package school_platform_pages.teacher;
 
 import http_request.HttpRequest;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -67,6 +69,14 @@ public class AttendanceTab extends Tab {
 
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/attendance/add");
 		String response = httpRequest.postAttendance(attendances);
-		System.out.println(response);
+		clearCheckBoxes();
+		Alert alert = new Alert(Alert.AlertType.INFORMATION, "Närvaro Registrerad!", ButtonType.CLOSE);
+		alert.getDialogPane().getStylesheets().add("stylesheets/alert.css");
+		alert.setTitle("Success");
+		alert.show();
+	}
+
+	private void clearCheckBoxes(){
+		checkBoxes.forEach(cb -> cb.setSelected(false));
 	}
 }

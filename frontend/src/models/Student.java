@@ -15,6 +15,9 @@ public class Student extends Person{
 		this.subjects = subjects;
 	}
 
+	public Student(String name, String ssn, String type) {
+		super(name, ssn, type);
+	}
 
 	public long getTeacherId() {
 		return teacherId;

@@ -1,4 +1,4 @@
-package school_platform_pages;
+package school_platform_pages.admin;
 
 import http_request.HttpRequest;
 import javafx.collections.FXCollections;
@@ -6,13 +6,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Employee;
 import models.Person;
+import models.Student;
 import models.StudentPost;
+import school_platform_pages.DefaultMenuBar;
+import school_platform_pages.SearchField;
 import utilities.JsonConverter;
 
 import java.util.ArrayList;
@@ -23,10 +24,7 @@ import java.util.stream.Collectors;
 
 public class AdminScene extends Scene {
 
-	private final StackPane pane = new StackPane();
 	private final DefaultMenuBar defaultMenuBar = new DefaultMenuBar();;
-	private final TableView<Person> table = new TableView<>();
-
 	private final VBox vBox = new VBox(10);
 	private final ComboBox<String> personType = new ComboBox<>();
 	private final TextField[] inputs = new TextField[5];
@@ -35,7 +33,11 @@ public class AdminScene extends Scene {
 	private final TextArea guardiansAdded = new TextArea();
 	private final Button add = new Button("Add");
 
-	final Stage stage;
+	private ObservableList<Person> persons;
+	private final TabPane tabPane = new TabPane();
+	private final EmployeeListingTab employeeListingTab = new EmployeeListingTab();
+	private final StudentListingTab studentListingTab = new StudentListingTab();
+	private final Stage stage;
 
 	private String currentPerson = "";
 
@@ -51,7 +53,10 @@ public class AdminScene extends Scene {
 
 	public void initialize() {
 		setDefaultMenuBar();
-		setStackPane();
+		persons = fetchPersons();
+		employeeListingTab.setEmployees(persons);
+		studentListingTab.setEmployees(persons);
+		setTabPane();
 		setVBox();
 		setOnActionAddButton();
 	}
@@ -60,34 +65,10 @@ public class AdminScene extends Scene {
 		defaultMenuBar.setMenu(stage);
 	}
 
-	public void setTable() {
-		pane.getChildren().add(table);
-		table.setItems(fetchPersons());
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-		TableColumn<Person, String> name = new TableColumn<>("Namn");
-		TableColumn<Person, String> ssn = new TableColumn<>("Personnr");
-		TableColumn<Person, String> type = new TableColumn<>("Typ");
-		TableColumn<Person, String> email = new TableColumn<>("E-post");
-		TableColumn<Person, String> phone = new TableColumn<>("Telefon");
-
-		name.setCellValueFactory(new PropertyValueFactory<>("name"));
-		ssn.setCellValueFactory(new PropertyValueFactory<>("ssn"));
-		type.setCellValueFactory(new PropertyValueFactory<>("type"));
-		email.setCellValueFactory(new PropertyValueFactory<>("email"));
-		phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
-
-		table.getColumns().add(name);
-		table.getColumns().add(ssn);
-		table.getColumns().add(type);
-		table.getColumns().add(email);
-		table.getColumns().add(phone);
-	}
-
 	public ObservableList<Person> fetchPersons() {
 		HttpRequest httpRequest = new HttpRequest("http://localhost:8080/person/all");
 		String response = httpRequest.getAllPersons();
-		Employee[] persons = JsonConverter.convertEmployees(response);
+		Employee[] persons = JsonConverter.convertPerson(response);
 
 		return FXCollections.observableArrayList(persons);
 	}
@@ -98,9 +79,9 @@ public class AdminScene extends Scene {
 		if (value.equals("STUDENT")) {
 			vBox.getChildren().removeAll(inputs[2], inputs[3], inputs[4]);
 			vBox.getChildren().remove(add);
-			teacherSearch.setSearch(table.getItems(), "TEACHER");
+			teacherSearch.setSearch(persons, "TEACHER");
 			setTeacherSearchActionListener();
-			guardianSearch.setSearch(table.getItems(), "GUARDIAN");
+			guardianSearch.setSearch(persons, "GUARDIAN");
 			setGuardianSearchActionListener();
 			vBox.getChildren().addAll(guardiansAdded, add);
 			currentPerson = "STUDENT";
@@ -139,7 +120,18 @@ public class AdminScene extends Scene {
 		String response = httpRequest.postPerson(person);
 
 		if (!response.equalsIgnoreCase("failed")) {
-			table.getItems().add(person);
+			if(person.getType().equalsIgnoreCase("STUDENT")) {
+				Student student = new Student(person.getName(), person.getSsn(), person.getType());
+				studentListingTab.getStudents().add(student);
+			}else{
+				Employee employee = new Employee(
+						person.getName(),
+						person.getSsn(),
+						person.getType(),
+						((Employee)person).getEmail(),
+						((Employee)person).getPhone());
+				employeeListingTab.getEmployees().add(employee);
+			}
 			clearTextFields();
 		}
 	}
@@ -195,8 +187,7 @@ public class AdminScene extends Scene {
 	}
 
 	public long getPersonIdByName(String name) {
-		return table.getItems()
-				.stream()
+		return persons.stream()
 				.filter(i -> i.getName().equals(name))
 				.collect(Collectors.toList())
 				.get(0)
@@ -211,15 +202,17 @@ public class AdminScene extends Scene {
 		return defaultMenuBar;
 	}
 
-	public void setStackPane() {
-		pane.getStyleClass().add("stack-pane");
-	}
-
-	public StackPane getStackPane() {
-		return pane;
-	}
-
 	public VBox getVBox() {
 		return vBox;
+	}
+
+	private void setTabPane(){
+		employeeListingTab.setEmployeeListingTab();
+		studentListingTab.setStudentListingTab();
+		tabPane.getTabs().addAll(studentListingTab, employeeListingTab);
+	}
+
+	public TabPane getTabPane() {
+		return tabPane;
 	}
 }

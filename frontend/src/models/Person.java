@@ -20,6 +20,8 @@ public class Person {
 		this.type = type;
 	}
 
+	public Person(){}
+
 
 	public long getId() {
 		return id;

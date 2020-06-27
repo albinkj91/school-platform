@@ -6,6 +6,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.Employee;
+import school_platform_pages.admin.AdminScene;
 import school_platform_pages.teacher.TeacherScene;
 
 public class SceneController {
@@ -53,11 +54,10 @@ public class SceneController {
 		adminScene.initialize();
 
 		borderPane.setTop(adminScene.getDefaultMenuBar());
-		borderPane.setCenter(adminScene.getStackPane());
+		borderPane.setCenter(adminScene.getTabPane());
 		borderPane.setRight(adminScene.getVBox());
 
 		changeScene(stage, adminScene);
-		adminScene.setTable();
 	}
 
 	public void setTeacherScene(Employee employee){

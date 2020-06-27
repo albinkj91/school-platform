@@ -1,12 +1,14 @@
-# School Platform - Backend
+# School Platform
 
-Tech stack:
+# Backend
+
+Necessities:
 - Gradle
 - Mysql Community
 
 # Launch Instructions:
 
-Linux/OS X:
+Linux:
 - Start MySQL server
 
   $ service mysql start
